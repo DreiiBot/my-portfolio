@@ -1,0 +1,776 @@
+/* Tokens come from the two photographs: the studio wall, the black jacket, the red backdrop,
+   the lit skin in the red portrait and the gold chain. */
+:root {
+  --wall: #c9cccb;
+  --jacket: #1b1d22;
+  --oxblood: #5e0e17;
+  --blush: #f1c7bd;
+  --chain: #85672a;
+
+  --backdrop: var(--wall);
+  --ink: var(--jacket);
+  --ink-soft: #3b3f47;
+
+  --display: 'Bodoni Moda', 'Didot', 'Bodoni 72', Georgia, serif;
+  --text: 'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Perfect fourth from a 17px body. */
+  --step--1: 0.8125rem;
+  --step-0: 1.0625rem;
+  --step-1: 1.4167rem;
+  --step-2: 1.8889rem;
+  --step-3: clamp(2.2rem, 3.4vw, 2.5185rem);
+  --step-4: clamp(2.6rem, 5.4vw, 4.5rem);
+  --step-5: clamp(3rem, 7.6vw, 6.8rem);
+
+  --gutter: clamp(16px, 4.5vw, 72px);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  interpolate-size: allow-keywords;
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--backdrop);
+  color: var(--ink);
+  font-family: var(--text);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  font-feature-settings: 'kern', 'liga';
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+ol,
+dl,
+dd {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+.skip {
+  position: fixed;
+  left: var(--gutter);
+  top: 12px;
+  z-index: 10;
+  padding: 10px 16px;
+  background: var(--jacket);
+  color: var(--wall);
+  transform: translateY(-160%);
+}
+
+.skip:focus-visible {
+  transform: none;
+}
+
+/* The canvas sits between the backdrop and the words. Only elements marked .lift rise above it. */
+.stage {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.stage canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.lift {
+  position: relative;
+  z-index: 2;
+}
+
+/* Navigation ---------------------------------------------------------------- */
+
+.nav {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 20px var(--gutter) 28px;
+  color: var(--jacket);
+  /* Fades out whatever scrolls beneath it, in the backdrop's current color. */
+  background: linear-gradient(var(--backdrop) 55%, transparent);
+  transition: color 0.4s ease;
+}
+
+:root[data-tone='oxblood'] .nav {
+  color: var(--blush);
+}
+
+.nav a {
+  text-decoration: none;
+}
+
+.monogram {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: var(--step-1);
+  font-weight: 500;
+  line-height: 1;
+}
+
+.nav ul {
+  display: flex;
+  gap: clamp(18px, 3vw, 40px);
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.nav ul a {
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  padding-bottom: 2px;
+  transition: background-size 0.35s var(--ease);
+}
+
+.nav ul a:hover {
+  background-size: 100% 1px;
+}
+
+/* Cover ----------------------------------------------------------------------- */
+
+.cover {
+  position: relative;
+  min-height: 100svh;
+  padding: clamp(72px, 11vh, 120px) var(--gutter) clamp(28px, 5vh, 56px);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+/* The masthead sits behind the portrait, as it would on a printed cover. */
+.masthead {
+  position: relative;
+  z-index: 0;
+  font-family: var(--display);
+  font-optical-sizing: auto;
+  font-weight: 500;
+  color: var(--chain);
+  font-size: clamp(4.4rem, 20.5vw, 24rem);
+  line-height: 0.78;
+  letter-spacing: -0.045em;
+  display: flex;
+  flex-direction: column;
+}
+
+.masthead-first {
+  margin-left: -0.04em;
+}
+
+.masthead-last {
+  align-self: flex-end;
+  margin-right: 0.02em;
+}
+
+.coverlines {
+  grid-row: 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 32px;
+}
+
+.coverline {
+  max-width: 21rem;
+  font-size: var(--step-0);
+  line-height: 1.45;
+}
+
+.coverline-story {
+  display: block;
+  text-align: right;
+  text-decoration: none;
+}
+
+.coverline-story strong {
+  display: block;
+  font-family: var(--display);
+  font-size: var(--step-2);
+  font-weight: 500;
+  line-height: 1.1;
+  margin-bottom: 8px;
+  text-wrap: balance;
+}
+
+.coverline-story span {
+  color: var(--ink-soft);
+}
+
+.coverline-story:hover strong {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+}
+
+/* Profile --------------------------------------------------------------------- */
+
+.profile {
+  position: relative;
+  min-height: 170svh;
+  color: var(--blush);
+  padding: clamp(120px, 22vh, 220px) var(--gutter) clamp(96px, 16vh, 180px);
+}
+
+.profile-copy {
+  margin-left: 50%;
+  max-width: 36rem;
+}
+
+.profile-copy h2 {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--step-1);
+  margin-bottom: 28px;
+}
+
+.tagline {
+  font-family: var(--display);
+  font-size: var(--step-4);
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  margin-bottom: clamp(56px, 10vh, 104px);
+}
+
+.qa > div + div {
+  margin-top: 44px;
+}
+
+.qa dt {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: var(--step-2);
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+.qa dd {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  max-width: 34rem;
+}
+
+.focus-title {
+  margin-top: 72px;
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--step-2);
+  margin-bottom: 16px;
+}
+
+.focus {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.focus li {
+  border: 1px solid color-mix(in srgb, var(--blush) 55%, transparent);
+  border-radius: 999px;
+  padding: 6px 16px 7px;
+  font-size: 0.9375rem;
+}
+
+/* Work ------------------------------------------------------------------------ */
+
+.work {
+  padding: clamp(140px, 24vh, 240px) var(--gutter) clamp(80px, 14vh, 160px);
+}
+
+.work-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.work-head {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: 40px;
+  align-items: end;
+  margin-bottom: clamp(72px, 12vh, 136px);
+}
+
+.work h2 {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: var(--step-5);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+
+.work-head p {
+  max-width: 28rem;
+  font-size: 1.125rem;
+  color: var(--ink-soft);
+}
+
+.feats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(40px, 7vw, 120px);
+  row-gap: clamp(48px, 8vh, 88px);
+}
+
+/* The right column sits half a row lower, the way a magazine staggers features. */
+.feats li:nth-child(even) {
+  transform: translateY(clamp(40px, 7vh, 88px));
+}
+
+.feats h3 {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: var(--step-3);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  margin-bottom: 14px;
+  text-wrap: balance;
+  max-width: 18ch;
+}
+
+.feats p {
+  max-width: 32rem;
+  color: var(--ink-soft);
+}
+
+.systems {
+  margin-top: clamp(160px, 26vh, 260px);
+}
+
+.systems-note {
+  margin: 20px 0 clamp(48px, 8vh, 80px);
+  color: var(--ink-soft);
+}
+
+.family + .family {
+  margin-top: clamp(56px, 9vh, 96px);
+}
+
+.family-head {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.family-head h3 {
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--step-2);
+}
+
+.family-head p {
+  color: var(--ink-soft);
+  font-size: 0.9375rem;
+}
+
+.system {
+  border-bottom: 1px solid color-mix(in srgb, var(--jacket) 22%, transparent);
+}
+
+.family-head + .system {
+  border-top: 1px solid color-mix(in srgb, var(--jacket) 22%, transparent);
+}
+
+.system summary {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 2fr) minmax(0, 6fr) 28px;
+  gap: 24px;
+  align-items: baseline;
+  padding: 22px 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.system summary::-webkit-details-marker {
+  display: none;
+}
+
+.system-name {
+  font-family: var(--display);
+  font-size: var(--step-2);
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.system-kind {
+  font-size: 0.9375rem;
+  color: var(--ink-soft);
+}
+
+.system-summary {
+  max-width: 38rem;
+}
+
+.system-toggle {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  justify-self: end;
+  align-self: center;
+}
+
+.system-toggle::before,
+.system-toggle::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1.5px;
+  background: currentColor;
+  transition: transform 0.4s var(--ease);
+}
+
+.system-toggle::after {
+  transform: rotate(90deg);
+}
+
+.system[open] .system-toggle::after {
+  transform: rotate(0deg);
+}
+
+.system summary:hover .system-name {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+}
+
+.system::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition:
+    block-size 0.5s var(--ease),
+    content-visibility 0.5s allow-discrete;
+}
+
+.system[open]::details-content {
+  block-size: auto;
+}
+
+.system-body {
+  padding: 4px 0 48px;
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  column-gap: 24px;
+}
+
+.system-body > * {
+  grid-column: 2;
+}
+
+.system-lead {
+  font-family: var(--display);
+  font-size: var(--step-1);
+  line-height: 1.35;
+  max-width: 40rem;
+  margin-bottom: 36px;
+}
+
+.steps {
+  margin-bottom: 40px;
+}
+
+.system-body h4 {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+/* Numbers appear only here, because these really are ordered steps. */
+.steps ol {
+  counter-reset: step;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 8px;
+  margin-top: 14px;
+}
+
+.steps li {
+  counter-increment: step;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 6px 14px 7px 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--jacket) 8%, transparent);
+  font-size: 0.9375rem;
+}
+
+.steps li::before {
+  content: counter(step);
+  font-family: var(--display);
+  font-style: italic;
+  color: var(--chain);
+  font-weight: 600;
+}
+
+.parts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px 40px;
+}
+
+.part p,
+.part li {
+  font-size: 0.9688rem;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+
+.part li + li {
+  margin-top: 4px;
+}
+
+.system-tech,
+.system-next {
+  margin-top: 32px;
+  font-size: 0.9375rem;
+  max-width: 44rem;
+}
+
+.system-next {
+  margin-top: 8px;
+  color: var(--ink-soft);
+}
+
+.tools {
+  margin-top: clamp(140px, 22vh, 220px);
+}
+
+.tools h2 {
+  margin-bottom: clamp(40px, 7vh, 72px);
+}
+
+.tools dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 40px clamp(32px, 5vw, 72px);
+}
+
+.tools dt {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: var(--step-1);
+  margin-bottom: 8px;
+}
+
+.tools dd {
+  color: var(--ink-soft);
+  font-size: 0.9688rem;
+}
+
+/* Contact --------------------------------------------------------------------- */
+
+.contact {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding: clamp(120px, 18vh, 200px) var(--gutter) 40px;
+}
+
+.contact-copy {
+  max-width: 40rem;
+}
+
+.contact h2 {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: var(--step-4);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  margin-bottom: 40px;
+}
+
+.mail {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: var(--step-2);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 8px;
+  overflow-wrap: anywhere;
+}
+
+.mail:hover {
+  text-decoration-thickness: 2px;
+}
+
+.elsewhere {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 28px;
+  margin-top: 36px;
+  font-weight: 500;
+}
+
+.colophon {
+  margin-top: clamp(80px, 16vh, 160px);
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+}
+
+/* Without WebGL, the photographs stand in for the drawn portrait. */
+.still {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.still-cover {
+  left: 50%;
+  bottom: 0;
+  width: min(62vh, 80vw);
+  transform: translateX(-50%);
+  mix-blend-mode: multiply;
+}
+
+.still-profile {
+  left: var(--gutter);
+  top: 22vh;
+  width: min(40vw, 560px);
+  position: sticky;
+}
+
+/* Mid widths: the cover lines share the left column so the portrait keeps the right. */
+@media (min-width: 900px) and (max-width: 1199px) {
+  .coverlines {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 28px;
+  }
+
+  .coverline-story {
+    text-align: left;
+  }
+}
+
+/* Narrow screens ------------------------------------------------------------- */
+
+@media (max-width: 899px) {
+  .cover {
+    grid-template-rows: auto 1fr auto;
+    min-height: 100svh;
+  }
+
+  .masthead {
+    font-size: clamp(4rem, 23vw, 10rem);
+  }
+
+  .coverlines {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+    padding: 20px;
+    margin: 0 calc(var(--gutter) * -1) 0;
+    background: color-mix(in srgb, var(--wall) 82%, transparent);
+    backdrop-filter: blur(6px);
+  }
+
+  .coverline-story {
+    text-align: left;
+  }
+
+  .profile {
+    min-height: 0;
+  }
+
+  .profile-copy {
+    margin-left: 0;
+  }
+
+  .work-head,
+  .feats,
+  .parts,
+  .tools dl {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .feats li:nth-child(even) {
+    transform: none;
+  }
+
+  .system summary {
+    grid-template-columns: minmax(0, 1fr) 20px;
+    gap: 4px 16px;
+  }
+
+  .system-name {
+    grid-column: 1;
+  }
+
+  .system-kind,
+  .system-summary {
+    grid-column: 1;
+  }
+
+  .system-toggle {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .system-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .system-body > * {
+    grid-column: 1;
+  }
+
+  .nav ul {
+    gap: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after,
+  .system::details-content {
+    transition-duration: 0.01ms !important;
+  }
+}
