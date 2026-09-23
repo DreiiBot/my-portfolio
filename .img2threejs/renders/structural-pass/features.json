@@ -1,3 +1,0 @@
-[{"id": "anatomy-proportion", "score": 0.8, "notes": "IoU 0.9185 vs matted reference."},
- {"id": "pose-silhouette", "score": 0.78, "notes": "Unchanged; turntable clean on all four azimuths."},
- {"id": "eyewear", "score": 0.76, "notes": "Rims silver with environment reflections, lenses dark glass, temples reach the ears, bridge above the nose."}]

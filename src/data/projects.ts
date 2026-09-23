@@ -234,20 +234,3 @@ export const externals: { id: string; label: string; to: string[] }[] = [
   { id: 'ruijie', label: 'Ruijie / Reyee', to: ['orange-portal'] },
   { id: 'nx', label: 'Nx Witness', to: ['neuronest'] },
 ]
-
-// The surface each system runs on, as described in its copy. Drives the preview frame and the card width.
-export type Device = 'browser' | 'phone' | 'kiosk' | 'receipt' | 'monitor' | 'papers'
-
-export const deviceFor: Record<string, Device> = {
-  posibli: 'browser', // multi-tenant web platform
-  inventonet: 'browser',
-  invoicing: 'receipt', // invoices, credit notes and signed events
-  'posibli-kiosk-admin': 'kiosk', // customer-facing kiosk checkout
-  picklebook: 'browser', // React
-  yuaskme: 'phone', // Expo / React Native customer app
-  synapsego: 'phone', // React Native super app
-  'orange-portal': 'phone', // captive portal on the guest's device
-  vistay: 'papers', // folios, proformas, final invoices
-  neuronest: 'monitor', // Nx Witness live video
-  'tally-room': 'phone', // mobile-first student ballot
-}

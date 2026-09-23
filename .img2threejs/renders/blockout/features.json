@@ -1,4 +1,0 @@
-[
- {"id": "anatomy-proportion", "score": 0.82, "notes": "Crown, chin, shoulder line and crop land on the photo; Tier-1 IoU 0.919, scale delta 0.042, aspect delta 0.022."},
- {"id": "pose-silhouette", "score": 0.78, "notes": "Head yaw/roll reads; upper shoulders slightly wide on the viewer-right; jacket lapel volume absent (projection will carry it)."}
-]

@@ -1,3 +1,0 @@
-[{"id": "face-landmark-placement", "score": 0.8, "notes": "Brow, nose, lips, chin and ears carry the projected photo at their measured positions; perspective compensation F=0.955 removed the doubled features."},
- {"id": "eyewear", "score": 0.8, "notes": "3D rims coincide with the photographed rims front-on; stand off the face at 35deg."},
- {"id": "anatomy-proportion", "score": 0.82, "notes": "IoU 0.9213, scale delta 0.022."}]
