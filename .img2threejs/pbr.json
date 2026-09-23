@@ -1,0 +1,498 @@
+{
+ "chain-gold": {
+  "referencePbr": {
+   "version": "1.0",
+   "sourceImage": "C:\\devs\\my-portfolio\\.img2threejs\\crops\\crop-chain.png",
+   "extractor": "stage1_intake/extract_pbr_evidence.py",
+   "method": "single-image pixel evidence with de-lighting estimate; not photogrammetry",
+   "usable": true,
+   "verdict": "pass",
+   "confidence": 0.829,
+   "estimatedFidelity": 0.829,
+   "targetThreshold": 0.7,
+   "hardLimit": "A single image cannot uniquely recover true albedo/roughness/normal/AO; maps are reference-derived estimates.",
+   "maps": {
+    "albedo": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\chain-gold\\chain-gold_albedo.png",
+     "url": "chain-gold_albedo.png",
+     "channel": "albedo",
+     "source": "reference-pixel-extraction"
+    },
+    "roughness": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\chain-gold\\chain-gold_roughness.png",
+     "url": "chain-gold_roughness.png",
+     "channel": "roughness",
+     "source": "reference-pixel-extraction"
+    },
+    "height": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\chain-gold\\chain-gold_height.png",
+     "url": "chain-gold_height.png",
+     "channel": "height",
+     "source": "reference-pixel-extraction"
+    },
+    "normal": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\chain-gold\\chain-gold_normal.png",
+     "url": "chain-gold_normal.png",
+     "channel": "normal",
+     "source": "reference-pixel-extraction"
+    },
+    "ao": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\chain-gold\\chain-gold_ao.png",
+     "url": "chain-gold_ao.png",
+     "channel": "ao",
+     "source": "reference-pixel-extraction"
+    }
+   },
+   "diagnostics": {
+    "sourceWidth": 32,
+    "sourceHeight": 7,
+    "mapSize": 1024,
+    "cropBBoxPixels": {
+     "x": 0,
+     "y": 0,
+     "width": 32,
+     "height": 7
+    },
+    "mask": {
+     "backgroundColor": "#644F35",
+     "backgroundNoise": 107.452,
+     "transparentPixelFraction": 0.0,
+     "foregroundCoverage": 1.0
+    },
+    "mapStats": {
+     "valueRange": 0.6121,
+     "heightP90Gradient": 0.02863,
+     "roughnessBase": 0.698,
+     "roughnessVariation": 0.057,
+     "normalStrength": 0.19,
+     "blurRadius": 21
+    },
+    "palette": [
+     "#2C1F0F",
+     "#8F7F62",
+     "#4B3D24",
+     "#B8A88D",
+     "#67583C"
+    ]
+   },
+   "warnings": [
+    "image is not clearly isolated from background; using most pixels as material evidence",
+    "object/background separation is weak",
+    "single-image inverse rendering cannot prove true physical PBR; confidence is capped"
+   ]
+  }
+ },
+ "cloth": {
+  "referencePbr": {
+   "version": "1.0",
+   "sourceImage": "C:\\devs\\my-portfolio\\.img2threejs\\crops\\crop-torso.png",
+   "extractor": "stage1_intake/extract_pbr_evidence.py",
+   "method": "single-image pixel evidence with de-lighting estimate; not photogrammetry",
+   "usable": true,
+   "verdict": "pass",
+   "confidence": 0.766,
+   "estimatedFidelity": 0.766,
+   "targetThreshold": 0.7,
+   "hardLimit": "A single image cannot uniquely recover true albedo/roughness/normal/AO; maps are reference-derived estimates.",
+   "maps": {
+    "albedo": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\cloth\\cloth_albedo.png",
+     "url": "cloth_albedo.png",
+     "channel": "albedo",
+     "source": "reference-pixel-extraction"
+    },
+    "roughness": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\cloth\\cloth_roughness.png",
+     "url": "cloth_roughness.png",
+     "channel": "roughness",
+     "source": "reference-pixel-extraction"
+    },
+    "height": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\cloth\\cloth_height.png",
+     "url": "cloth_height.png",
+     "channel": "height",
+     "source": "reference-pixel-extraction"
+    },
+    "normal": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\cloth\\cloth_normal.png",
+     "url": "cloth_normal.png",
+     "channel": "normal",
+     "source": "reference-pixel-extraction"
+    },
+    "ao": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\cloth\\cloth_ao.png",
+     "url": "cloth_ao.png",
+     "channel": "ao",
+     "source": "reference-pixel-extraction"
+    }
+   },
+   "diagnostics": {
+    "sourceWidth": 120,
+    "sourceHeight": 160,
+    "mapSize": 1024,
+    "cropBBoxPixels": {
+     "x": 0,
+     "y": 0,
+     "width": 120,
+     "height": 160
+    },
+    "mask": {
+     "backgroundColor": "#131416",
+     "backgroundNoise": 8.66,
+     "transparentPixelFraction": 0.0,
+     "foregroundCoverage": 0.157
+    },
+    "mapStats": {
+     "valueRange": 0.08,
+     "heightP90Gradient": 0.01143,
+     "roughnessBase": 0.68,
+     "roughnessVariation": 0.05,
+     "normalStrength": 0.17,
+     "blurRadius": 21
+    },
+    "palette": [
+     "#17181C",
+     "#0E0F12",
+     "#15161A",
+     "#121317",
+     "#191A1E"
+    ]
+   },
+   "warnings": [
+    "single-image inverse rendering cannot prove true physical PBR; confidence is capped",
+    "low value range weakens height/roughness inference"
+   ]
+  }
+ },
+ "frame-metal": {
+  "referencePbr": {
+   "version": "1.0",
+   "sourceImage": "C:\\devs\\my-portfolio\\.img2threejs\\crops\\crop-rim.png",
+   "extractor": "stage1_intake/extract_pbr_evidence.py",
+   "method": "single-image pixel evidence with de-lighting estimate; not photogrammetry",
+   "usable": true,
+   "verdict": "pass",
+   "confidence": 0.786,
+   "estimatedFidelity": 0.786,
+   "targetThreshold": 0.7,
+   "hardLimit": "A single image cannot uniquely recover true albedo/roughness/normal/AO; maps are reference-derived estimates.",
+   "maps": {
+    "albedo": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\frame-metal\\frame-metal_albedo.png",
+     "url": "frame-metal_albedo.png",
+     "channel": "albedo",
+     "source": "reference-pixel-extraction"
+    },
+    "roughness": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\frame-metal\\frame-metal_roughness.png",
+     "url": "frame-metal_roughness.png",
+     "channel": "roughness",
+     "source": "reference-pixel-extraction"
+    },
+    "height": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\frame-metal\\frame-metal_height.png",
+     "url": "frame-metal_height.png",
+     "channel": "height",
+     "source": "reference-pixel-extraction"
+    },
+    "normal": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\frame-metal\\frame-metal_normal.png",
+     "url": "frame-metal_normal.png",
+     "channel": "normal",
+     "source": "reference-pixel-extraction"
+    },
+    "ao": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\frame-metal\\frame-metal_ao.png",
+     "url": "frame-metal_ao.png",
+     "channel": "ao",
+     "source": "reference-pixel-extraction"
+    }
+   },
+   "diagnostics": {
+    "sourceWidth": 32,
+    "sourceHeight": 8,
+    "mapSize": 1024,
+    "cropBBoxPixels": {
+     "x": 0,
+     "y": 0,
+     "width": 32,
+     "height": 8
+    },
+    "mask": {
+     "backgroundColor": "#828688",
+     "backgroundNoise": 99.318,
+     "transparentPixelFraction": 0.0,
+     "foregroundCoverage": 1.0
+    },
+    "mapStats": {
+     "valueRange": 0.4474,
+     "heightP90Gradient": 0.0225,
+     "roughnessBase": 0.692,
+     "roughnessVariation": 0.05,
+     "normalStrength": 0.183,
+     "blurRadius": 21
+    },
+    "palette": [
+     "#96989E",
+     "#2E312F",
+     "#878A8D",
+     "#474A4A",
+     "#6A6D6D"
+    ]
+   },
+   "warnings": [
+    "foreground mask is tiny; material extraction is likely unreliable",
+    "image is not clearly isolated from background; using most pixels as material evidence",
+    "object/background separation is weak",
+    "single-image inverse rendering cannot prove true physical PBR; confidence is capped"
+   ]
+  }
+ },
+ "hair": {
+  "referencePbr": {
+   "version": "1.0",
+   "sourceImage": "C:\\devs\\my-portfolio\\.img2threejs\\crops\\crop-hair.png",
+   "extractor": "stage1_intake/extract_pbr_evidence.py",
+   "method": "single-image pixel evidence with de-lighting estimate; not photogrammetry",
+   "usable": true,
+   "verdict": "pass",
+   "confidence": 0.831,
+   "estimatedFidelity": 0.831,
+   "targetThreshold": 0.7,
+   "hardLimit": "A single image cannot uniquely recover true albedo/roughness/normal/AO; maps are reference-derived estimates.",
+   "maps": {
+    "albedo": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\hair\\hair_albedo.png",
+     "url": "hair_albedo.png",
+     "channel": "albedo",
+     "source": "reference-pixel-extraction"
+    },
+    "roughness": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\hair\\hair_roughness.png",
+     "url": "hair_roughness.png",
+     "channel": "roughness",
+     "source": "reference-pixel-extraction"
+    },
+    "height": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\hair\\hair_height.png",
+     "url": "hair_height.png",
+     "channel": "height",
+     "source": "reference-pixel-extraction"
+    },
+    "normal": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\hair\\hair_normal.png",
+     "url": "hair_normal.png",
+     "channel": "normal",
+     "source": "reference-pixel-extraction"
+    },
+    "ao": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\hair\\hair_ao.png",
+     "url": "hair_ao.png",
+     "channel": "ao",
+     "source": "reference-pixel-extraction"
+    }
+   },
+   "diagnostics": {
+    "sourceWidth": 280,
+    "sourceHeight": 70,
+    "mapSize": 1024,
+    "cropBBoxPixels": {
+     "x": 0,
+     "y": 0,
+     "width": 280,
+     "height": 70
+    },
+    "mask": {
+     "backgroundColor": "#617876",
+     "backgroundNoise": 151.664,
+     "transparentPixelFraction": 0.0,
+     "foregroundCoverage": 0.2739
+    },
+    "mapStats": {
+     "valueRange": 0.14,
+     "heightP90Gradient": 0.04302,
+     "roughnessBase": 0.691,
+     "roughnessVariation": 0.085,
+     "normalStrength": 0.207,
+     "blurRadius": 21
+    },
+    "palette": [
+     "#0E0F12",
+     "#161519",
+     "#090A0C",
+     "#201D1F",
+     "#3C3737"
+    ]
+   },
+   "warnings": [
+    "single-image inverse rendering cannot prove true physical PBR; confidence is capped",
+    "low value range weakens height/roughness inference"
+   ]
+  }
+ },
+ "lens-glass": {
+  "referencePbr": {
+   "version": "1.0",
+   "sourceImage": "C:\\devs\\my-portfolio\\.img2threejs\\crops\\crop-lens-r.png",
+   "extractor": "stage1_intake/extract_pbr_evidence.py",
+   "method": "single-image pixel evidence with de-lighting estimate; not photogrammetry",
+   "usable": true,
+   "verdict": "pass",
+   "confidence": 0.831,
+   "estimatedFidelity": 0.831,
+   "targetThreshold": 0.7,
+   "hardLimit": "A single image cannot uniquely recover true albedo/roughness/normal/AO; maps are reference-derived estimates.",
+   "maps": {
+    "albedo": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\lens-glass\\lens-glass_albedo.png",
+     "url": "lens-glass_albedo.png",
+     "channel": "albedo",
+     "source": "reference-pixel-extraction"
+    },
+    "roughness": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\lens-glass\\lens-glass_roughness.png",
+     "url": "lens-glass_roughness.png",
+     "channel": "roughness",
+     "source": "reference-pixel-extraction"
+    },
+    "height": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\lens-glass\\lens-glass_height.png",
+     "url": "lens-glass_height.png",
+     "channel": "height",
+     "source": "reference-pixel-extraction"
+    },
+    "normal": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\lens-glass\\lens-glass_normal.png",
+     "url": "lens-glass_normal.png",
+     "channel": "normal",
+     "source": "reference-pixel-extraction"
+    },
+    "ao": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\lens-glass\\lens-glass_ao.png",
+     "url": "lens-glass_ao.png",
+     "channel": "ao",
+     "source": "reference-pixel-extraction"
+    }
+   },
+   "diagnostics": {
+    "sourceWidth": 70,
+    "sourceHeight": 60,
+    "mapSize": 1024,
+    "cropBBoxPixels": {
+     "x": 0,
+     "y": 0,
+     "width": 70,
+     "height": 60
+    },
+    "mask": {
+     "backgroundColor": "#262428",
+     "backgroundNoise": 17.493,
+     "transparentPixelFraction": 0.0,
+     "foregroundCoverage": 0.3757
+    },
+    "mapStats": {
+     "valueRange": 0.0944,
+     "heightP90Gradient": 0.02613,
+     "roughnessBase": 0.687,
+     "roughnessVariation": 0.05,
+     "normalStrength": 0.187,
+     "blurRadius": 21
+    },
+    "palette": [
+     "#222127",
+     "#1D1B20",
+     "#151115",
+     "#1A161A",
+     "#494A4F"
+    ]
+   },
+   "warnings": [
+    "single-image inverse rendering cannot prove true physical PBR; confidence is capped",
+    "low value range weakens height/roughness inference"
+   ]
+  }
+ },
+ "skin-projected": {
+  "referencePbr": {
+   "version": "1.0",
+   "sourceImage": "C:\\devs\\my-portfolio\\.img2threejs\\crops\\crop-head.png",
+   "extractor": "stage1_intake/extract_pbr_evidence.py",
+   "method": "single-image pixel evidence with de-lighting estimate; not photogrammetry",
+   "usable": true,
+   "verdict": "pass",
+   "confidence": 0.779,
+   "estimatedFidelity": 0.779,
+   "targetThreshold": 0.7,
+   "hardLimit": "A single image cannot uniquely recover true albedo/roughness/normal/AO; maps are reference-derived estimates.",
+   "maps": {
+    "albedo": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\skin-projected\\skin-projected_albedo.png",
+     "url": "skin-projected_albedo.png",
+     "channel": "albedo",
+     "source": "reference-pixel-extraction"
+    },
+    "roughness": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\skin-projected\\skin-projected_roughness.png",
+     "url": "skin-projected_roughness.png",
+     "channel": "roughness",
+     "source": "reference-pixel-extraction"
+    },
+    "height": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\skin-projected\\skin-projected_height.png",
+     "url": "skin-projected_height.png",
+     "channel": "height",
+     "source": "reference-pixel-extraction"
+    },
+    "normal": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\skin-projected\\skin-projected_normal.png",
+     "url": "skin-projected_normal.png",
+     "channel": "normal",
+     "source": "reference-pixel-extraction"
+    },
+    "ao": {
+     "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\skin-projected\\skin-projected_ao.png",
+     "url": "skin-projected_ao.png",
+     "channel": "ao",
+     "source": "reference-pixel-extraction"
+    }
+   },
+   "diagnostics": {
+    "sourceWidth": 160,
+    "sourceHeight": 100,
+    "mapSize": 1024,
+    "cropBBoxPixels": {
+     "x": 0,
+     "y": 0,
+     "width": 160,
+     "height": 100
+    },
+    "mask": {
+     "backgroundColor": "#B57553",
+     "backgroundNoise": 64.699,
+     "transparentPixelFraction": 0.0,
+     "foregroundCoverage": 1.0
+    },
+    "mapStats": {
+     "valueRange": 0.2775,
+     "heightP90Gradient": 0.02162,
+     "roughnessBase": 0.707,
+     "roughnessVariation": 0.05,
+     "normalStrength": 0.182,
+     "blurRadius": 21
+    },
+    "palette": [
+     "#C3815C",
+     "#B47351",
+     "#87523C",
+     "#D0916B",
+     "#9F6345"
+    ]
+   },
+   "warnings": [
+    "image is not clearly isolated from background; using most pixels as material evidence",
+    "object/background separation is weak",
+    "single-image inverse rendering cannot prove true physical PBR; confidence is capped"
+   ]
+  }
+ }
+}

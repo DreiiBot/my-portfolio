@@ -1,0 +1,86 @@
+{
+  "ok": true,
+  "verdict": "pass",
+  "confidence": 0.831,
+  "estimatedFidelity": 0.831,
+  "targetThreshold": 0.7,
+  "materialId": "lens-glass",
+  "sourceImage": "C:\\devs\\my-portfolio\\.img2threejs\\crops\\crop-lens-r.png",
+  "outDir": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\lens-glass",
+  "palette": [
+    "#222127",
+    "#1D1B20",
+    "#151115",
+    "#1A161A",
+    "#494A4F"
+  ],
+  "maps": {
+    "albedo": {
+      "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\lens-glass\\lens-glass_albedo.png",
+      "url": "lens-glass_albedo.png",
+      "channel": "albedo",
+      "source": "reference-pixel-extraction"
+    },
+    "roughness": {
+      "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\lens-glass\\lens-glass_roughness.png",
+      "url": "lens-glass_roughness.png",
+      "channel": "roughness",
+      "source": "reference-pixel-extraction"
+    },
+    "height": {
+      "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\lens-glass\\lens-glass_height.png",
+      "url": "lens-glass_height.png",
+      "channel": "height",
+      "source": "reference-pixel-extraction"
+    },
+    "normal": {
+      "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\lens-glass\\lens-glass_normal.png",
+      "url": "lens-glass_normal.png",
+      "channel": "normal",
+      "source": "reference-pixel-extraction"
+    },
+    "ao": {
+      "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\lens-glass\\lens-glass_ao.png",
+      "url": "lens-glass_ao.png",
+      "channel": "ao",
+      "source": "reference-pixel-extraction"
+    }
+  },
+  "diagnostics": {
+    "sourceWidth": 70,
+    "sourceHeight": 60,
+    "mapSize": 1024,
+    "cropBBoxPixels": {
+      "x": 0,
+      "y": 0,
+      "width": 70,
+      "height": 60
+    },
+    "mask": {
+      "backgroundColor": "#262428",
+      "backgroundNoise": 17.493,
+      "transparentPixelFraction": 0.0,
+      "foregroundCoverage": 0.3757
+    },
+    "mapStats": {
+      "valueRange": 0.0944,
+      "heightP90Gradient": 0.02613,
+      "roughnessBase": 0.687,
+      "roughnessVariation": 0.05,
+      "normalStrength": 0.187,
+      "blurRadius": 21
+    },
+    "palette": [
+      "#222127",
+      "#1D1B20",
+      "#151115",
+      "#1A161A",
+      "#494A4F"
+    ]
+  },
+  "warnings": [
+    "single-image inverse rendering cannot prove true physical PBR; confidence is capped",
+    "low value range weakens height/roughness inference"
+  ],
+  "limitation": "single-image PBR extraction is an estimate; 70%+ extraction confidence still needs render screenshot review"
+}

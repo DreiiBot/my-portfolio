@@ -1,0 +1,87 @@
+{
+  "ok": true,
+  "verdict": "pass",
+  "confidence": 0.829,
+  "estimatedFidelity": 0.829,
+  "targetThreshold": 0.7,
+  "materialId": "chain-gold",
+  "sourceImage": "C:\\devs\\my-portfolio\\.img2threejs\\crops\\crop-chain.png",
+  "outDir": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\chain-gold",
+  "palette": [
+    "#2C1F0F",
+    "#8F7F62",
+    "#4B3D24",
+    "#B8A88D",
+    "#67583C"
+  ],
+  "maps": {
+    "albedo": {
+      "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\chain-gold\\chain-gold_albedo.png",
+      "url": "chain-gold_albedo.png",
+      "channel": "albedo",
+      "source": "reference-pixel-extraction"
+    },
+    "roughness": {
+      "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\chain-gold\\chain-gold_roughness.png",
+      "url": "chain-gold_roughness.png",
+      "channel": "roughness",
+      "source": "reference-pixel-extraction"
+    },
+    "height": {
+      "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\chain-gold\\chain-gold_height.png",
+      "url": "chain-gold_height.png",
+      "channel": "height",
+      "source": "reference-pixel-extraction"
+    },
+    "normal": {
+      "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\chain-gold\\chain-gold_normal.png",
+      "url": "chain-gold_normal.png",
+      "channel": "normal",
+      "source": "reference-pixel-extraction"
+    },
+    "ao": {
+      "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\chain-gold\\chain-gold_ao.png",
+      "url": "chain-gold_ao.png",
+      "channel": "ao",
+      "source": "reference-pixel-extraction"
+    }
+  },
+  "diagnostics": {
+    "sourceWidth": 32,
+    "sourceHeight": 7,
+    "mapSize": 1024,
+    "cropBBoxPixels": {
+      "x": 0,
+      "y": 0,
+      "width": 32,
+      "height": 7
+    },
+    "mask": {
+      "backgroundColor": "#644F35",
+      "backgroundNoise": 107.452,
+      "transparentPixelFraction": 0.0,
+      "foregroundCoverage": 1.0
+    },
+    "mapStats": {
+      "valueRange": 0.6121,
+      "heightP90Gradient": 0.02863,
+      "roughnessBase": 0.698,
+      "roughnessVariation": 0.057,
+      "normalStrength": 0.19,
+      "blurRadius": 21
+    },
+    "palette": [
+      "#2C1F0F",
+      "#8F7F62",
+      "#4B3D24",
+      "#B8A88D",
+      "#67583C"
+    ]
+  },
+  "warnings": [
+    "image is not clearly isolated from background; using most pixels as material evidence",
+    "object/background separation is weak",
+    "single-image inverse rendering cannot prove true physical PBR; confidence is capped"
+  ],
+  "limitation": "single-image PBR extraction is an estimate; 70%+ extraction confidence still needs render screenshot review"
+}

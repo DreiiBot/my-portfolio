@@ -1,0 +1,60 @@
+{
+ "referenceCamera": {
+  "version": "1.0",
+  "sourceImage": "C:\\devs\\my-portfolio\\src\\assets\\eleandre-portrait.jpg",
+  "solver": "stage1_intake/solve_camera_pose.py",
+  "method": "heuristic default-guess camera, not solved from image content; image dimensions give an exact aspect ratio, everything else is a starting point for agent refinement",
+  "imageWidth": 2000,
+  "imageHeight": 2000,
+  "fovDegrees": {
+   "value": 18.0,
+   "source": "user-supplied",
+   "agentFill": false,
+   "rationale": "default guess for a landscape/square photo (typical phone/short-tele framing)"
+  },
+  "aspect": {
+   "value": 1.0,
+   "source": "image-dimensions",
+   "agentFill": false
+  },
+  "orientation": {
+   "yawDegrees": {
+    "value": 0.0,
+    "source": "agent-measured",
+    "agentFill": false
+   },
+   "pitchDegrees": {
+    "value": 0.0,
+    "source": "agent-measured",
+    "agentFill": false
+   },
+   "rollDegrees": {
+    "value": 0.0,
+    "source": "agent-measured",
+    "agentFill": false
+   },
+   "note": "Level, straight-on shot: horizon of the wall has no keystone, shoulders square. Head yaw/roll belong to the subject, not the camera."
+  },
+  "position": {
+   "hint": [
+    0.0,
+    0.0,
+    10.0
+   ],
+   "distance": {
+    "value": 10.0,
+    "source": "agent-chosen",
+    "agentFill": false
+   },
+   "note": "World units: image plane at z=0 spans 2*10*tan(9deg)=3.1677 units vertically; image (u,v) -> X=(u-0.5)*3.1677, Y=(0.5-v)*3.1677. Camera looks down -Z."
+  },
+  "confidence": 0.55,
+  "limitations": [
+   "no true camera calibration is performed; focal length/FOV/orientation are not recovered from pixels",
+   "fovDegrees is a genre default, not a measurement; wrong FOV distorts perceived proportions under overlay",
+   "orientation and position are placeholders and will almost always need manual/agent adjustment",
+   "this script cannot detect lens distortion, perspective foreshortening, or non-zero roll"
+  ],
+  "note": "Final camera match must be confirmed by overlay review: render the fitted mesh from this camera, place it beside or over the reference image, and adjust fovDegrees/orientation/position until silhouette and landmark alignment match before trusting projected texture bakes."
+ }
+}

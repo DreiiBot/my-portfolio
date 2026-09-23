@@ -1,0 +1,14 @@
+{
+  "admitted": true,
+  "reasons": [],
+  "provenance": {
+    "viewpoint": "front",
+    "sourcePath": "C:\\devs\\my-portfolio\\src\\assets\\eleandre-portrait.jpg",
+    "width": 2000,
+    "height": 2000,
+    "foregroundCoverage": 0.5379,
+    "largestComponentFraction": 0.9927,
+    "pHash": 17433058878889176194,
+    "duplicateOfHash": null
+  }
+}

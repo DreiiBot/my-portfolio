@@ -1,0 +1,69 @@
+STATUS pass=structural-pass completed=1 blocked=none next=diagnose_render.py
+{
+  "passed": true,
+  "checks": {
+    "silhouetteIoU": 0.9185,
+    "aspectRatioDelta": 0.0222,
+    "scaleDelta": 0.0424,
+    "bilateralSymmetryError": 0.0469,
+    "colorDelta": {
+      "checked": 12,
+      "maxDeltaE": 28.61,
+      "perComponent": [
+        {
+          "componentId": "torso",
+          "deltaE": 1.72
+        },
+        {
+          "componentId": "turtleneck-collar",
+          "deltaE": 1.83
+        },
+        {
+          "componentId": "head",
+          "deltaE": 9.06
+        },
+        {
+          "componentId": "hair",
+          "deltaE": 2.19
+        },
+        {
+          "componentId": "lens-r",
+          "deltaE": 2.11
+        },
+        {
+          "componentId": "rim-r",
+          "deltaE": 28.61
+        },
+        {
+          "componentId": "rim-r",
+          "deltaE": 28.61
+        },
+        {
+          "componentId": "lens-l",
+          "deltaE": 8.79
+        },
+        {
+          "componentId": "rim-r",
+          "deltaE": 28.61
+        },
+        {
+          "componentId": "rim-r",
+          "deltaE": 28.61
+        },
+        {
+          "componentId": "rim-r",
+          "deltaE": 28.61
+        },
+        {
+          "componentId": "chain",
+          "deltaE": 24.49
+        }
+      ],
+      "gated": false
+    }
+  },
+  "failures": [],
+  "maskWarnings": [],
+  "renderHash": "37828dac644e1d81",
+  "passId": "structural-pass"
+}

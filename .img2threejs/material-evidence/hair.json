@@ -1,0 +1,86 @@
+{
+  "ok": true,
+  "verdict": "pass",
+  "confidence": 0.831,
+  "estimatedFidelity": 0.831,
+  "targetThreshold": 0.7,
+  "materialId": "hair",
+  "sourceImage": "C:\\devs\\my-portfolio\\.img2threejs\\crops\\crop-hair.png",
+  "outDir": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\hair",
+  "palette": [
+    "#0E0F12",
+    "#161519",
+    "#090A0C",
+    "#201D1F",
+    "#3C3737"
+  ],
+  "maps": {
+    "albedo": {
+      "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\hair\\hair_albedo.png",
+      "url": "hair_albedo.png",
+      "channel": "albedo",
+      "source": "reference-pixel-extraction"
+    },
+    "roughness": {
+      "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\hair\\hair_roughness.png",
+      "url": "hair_roughness.png",
+      "channel": "roughness",
+      "source": "reference-pixel-extraction"
+    },
+    "height": {
+      "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\hair\\hair_height.png",
+      "url": "hair_height.png",
+      "channel": "height",
+      "source": "reference-pixel-extraction"
+    },
+    "normal": {
+      "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\hair\\hair_normal.png",
+      "url": "hair_normal.png",
+      "channel": "normal",
+      "source": "reference-pixel-extraction"
+    },
+    "ao": {
+      "path": "C:\\devs\\my-portfolio\\.img2threejs\\material-evidence\\hair\\hair_ao.png",
+      "url": "hair_ao.png",
+      "channel": "ao",
+      "source": "reference-pixel-extraction"
+    }
+  },
+  "diagnostics": {
+    "sourceWidth": 280,
+    "sourceHeight": 70,
+    "mapSize": 1024,
+    "cropBBoxPixels": {
+      "x": 0,
+      "y": 0,
+      "width": 280,
+      "height": 70
+    },
+    "mask": {
+      "backgroundColor": "#617876",
+      "backgroundNoise": 151.664,
+      "transparentPixelFraction": 0.0,
+      "foregroundCoverage": 0.2739
+    },
+    "mapStats": {
+      "valueRange": 0.14,
+      "heightP90Gradient": 0.04302,
+      "roughnessBase": 0.691,
+      "roughnessVariation": 0.085,
+      "normalStrength": 0.207,
+      "blurRadius": 21
+    },
+    "palette": [
+      "#0E0F12",
+      "#161519",
+      "#090A0C",
+      "#201D1F",
+      "#3C3737"
+    ]
+  },
+  "warnings": [
+    "single-image inverse rendering cannot prove true physical PBR; confidence is capped",
+    "low value range weakens height/roughness inference"
+  ],
+  "limitation": "single-image PBR extraction is an estimate; 70%+ extraction confidence still needs render screenshot review"
+}

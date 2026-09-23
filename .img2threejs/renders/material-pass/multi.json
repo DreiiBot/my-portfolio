@@ -1,0 +1,20 @@
+{
+  "referenceAreaFraction": 0.414362,
+  "angles": [
+    {
+      "path": "C:\\devs\\my-portfolio\\.img2threejs\\renders\\material-pass\\q35.png",
+      "areaFraction": 0.375653,
+      "ratio": 0.9065816846139366,
+      "degenerate": false
+    },
+    {
+      "path": "C:\\devs\\my-portfolio\\.img2threejs\\renders\\material-pass\\q-35.png",
+      "areaFraction": 0.367405,
+      "ratio": 0.88667638441749,
+      "degenerate": false
+    }
+  ],
+  "degenerate": false,
+  "collapseRatio": 0.15,
+  "note": "deterministic; zero token; a flat-plane-faking-a-volume collapses in silhouette area when orbited"
+}
