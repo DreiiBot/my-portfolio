@@ -3,28 +3,81 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Eleandre Sales</title>
+    <title>Eleandre Sales · Software Developer in the Philippines</title>
     <meta
       name="description"
-      content="Eleandre Sales is a software developer and IT professional in the Philippines who builds the systems small businesses run on: checkout, procurement, invoicing, WiFi, door access and AI."
+      content="Eleandre Sales is a software developer in the Philippines who builds POS, procurement, invoicing, WiFi, door-access and AI systems for small businesses."
     />
+    <meta name="author" content="Eleandre Sales" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href="%SITE_URL%/" />
     <meta name="theme-color" content="#C9CCCB" />
-    <meta property="og:title" content="Eleandre Sales" />
+
+    <!-- Open Graph: link previews on Facebook, LinkedIn, Messenger, Slack, Discord -->
+    <meta property="og:type" content="profile" />
+    <meta property="og:site_name" content="Eleandre Sales" />
+    <meta property="og:locale" content="en_PH" />
+    <meta property="og:url" content="%SITE_URL%/" />
+    <meta property="og:title" content="Eleandre Sales · Software Developer in the Philippines" />
     <meta
       property="og:description"
-      content="Software developer and IT professional. How one point of sale grew into eleven connected systems."
+      content="How one point of sale grew into eleven connected systems: checkout, procurement, invoicing, WiFi, door access and AI."
     />
-    <meta property="og:type" content="profile" />
+    <meta property="og:image" content="%SITE_URL%/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Portrait of Eleandre Sales in round sunglasses and a black turtleneck, next to the name Eleandre Sales" />
+    <meta property="profile:first_name" content="Eleandre" />
+    <meta property="profile:last_name" content="Sales" />
+
+    <!-- X / Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Eleandre Sales · Software Developer in the Philippines" />
+    <meta
+      name="twitter:description"
+      content="How one point of sale grew into eleven connected systems: checkout, procurement, invoicing, WiFi, door access and AI."
+    />
+    <meta name="twitter:image" content="%SITE_URL%/og-image.png" />
+    <meta name="twitter:image:alt" content="Portrait of Eleandre Sales in round sunglasses and a black turtleneck, next to the name Eleandre Sales" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfilePage",
+        "url": "%SITE_URL%/",
+        "mainEntity": {
+          "@type": "Person",
+          "name": "Eleandre Sales",
+          "jobTitle": "Software Developer and IT Professional",
+          "url": "%SITE_URL%/",
+          "image": "%SITE_URL%/og-image.png",
+          "address": { "@type": "PostalAddress", "addressCountry": "PH" },
+          "sameAs": ["https://github.com/DreiiBot", "https://www.linkedin.com/in/eleandre-sales-902194334"],
+          "knowsAbout": [
+            "Full-stack web development",
+            "Mobile app development",
+            "Point of sale systems",
+            "Procure-to-pay",
+            "API design",
+            "Computer vision",
+            "AI-powered solutions",
+            "Software architecture"
+          ]
+        }
+      }
+    </script>
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Hanken+Grotesk:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500&family=Hanken+Grotesk:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><!--app--></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

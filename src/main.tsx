@@ -1,10 +1,15 @@
 import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { createRoot, hydrateRoot } from 'react-dom/client'
 import './styles.css'
 import App from './App.tsx'
 
-createRoot(document.getElementById('root')!).render(
+const root = document.getElementById('root')!
+const app = (
   <StrictMode>
     <App />
-  </StrictMode>,
+  </StrictMode>
 )
+
+// Production builds arrive prerendered (see scripts/prerender.mjs); the dev server does not.
+if (root.firstElementChild) hydrateRoot(root, app)
+else createRoot(root).render(app)

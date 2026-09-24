@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "all-caps-body",
+        "value": "*",
+        "files": [
+          "scripts/og-card.html"
+        ],
+        "createdAt": "2026-09-24T04:20:08.846Z",
+        "reason": "Claude: the only uppercase text is the 4-word label 'Software developer · Philippines', matching the site's section labels"
+      },
+      {
+        "rule": "tight-leading",
+        "value": "*",
+        "files": [
+          "scripts/og-card.html"
+        ],
+        "createdAt": "2026-09-24T04:20:09.304Z",
+        "reason": "Claude: tight leading is only on the 184px display name (0.8) and 38px headline (1.1), mirroring the site's masthead; no body text on the card"
+      }
+    ]
+  }
+}

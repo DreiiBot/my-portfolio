@@ -14,12 +14,31 @@ const ramp = (v: number, from: number, to: number) => {
   const t = clamp01((v - from) / (to - from))
   return t * t * (3 - 2 * t)
 }
+const sections = [
+  { id: 'profile', label: 'Profile' },
+  { id: 'work', label: 'Work' },
+  { id: 'systems', label: 'Systems' },
+  { id: 'contact', label: 'Contact' },
+]
 const words = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve']
 
 export default function App() {
   const stage = useRef<HTMLDivElement>(null)
   const [webgl, setWebgl] = useState(true)
   const [ready, setReady] = useState(false)
+  const [current, setCurrent] = useState<string>()
+
+  // The nav underlines whichever section holds the upper third of the viewport.
+  useEffect(() => {
+    const onScroll = () => {
+      const line = window.innerHeight / 3
+      const passed = sections.filter((s) => document.getElementById(s.id)!.getBoundingClientRect().top <= line)
+      setCurrent(passed.at(-1)?.id)
+    }
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   useEffect(() => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -123,15 +142,13 @@ export default function App() {
           ES
         </a>
         <ul>
-          <li>
-            <a href="#profile">Profile</a>
-          </li>
-          <li>
-            <a href="#work">Work</a>
-          </li>
-          <li>
-            <a href="#contact">Contact</a>
-          </li>
+          {sections.map((s) => (
+            <li key={s.id}>
+              <a href={`#${s.id}`} aria-current={current === s.id ? 'location' : undefined}>
+                {s.label}
+              </a>
+            </li>
+          ))}
         </ul>
       </nav>
 
@@ -156,19 +173,19 @@ export default function App() {
         <section className="profile" id="profile" aria-labelledby="profile-title">
           {!webgl && <img className="still still-profile" src={redPortrait} alt="" />}
           <div className="profile-copy lift">
-            <h2 id="profile-title">
-              In my own words
+            <p className="slug">Profile, in my own words</p>
+            <h2 id="profile-title" className="section-title tagline">
+              {person.tagline}
             </h2>
-            <p className="tagline">{person.tagline}</p>
             <dl className="qa">
               {interview.map((item) => (
                 <div key={item.q}>
-                  <dt>{item.q}</dt>
+                  <dt className="subhead">{item.q}</dt>
                   <dd>{item.a}</dd>
                 </div>
               ))}
             </dl>
-            <h3 className="focus-title">Where I spend my time</h3>
+            <h3 className="subhead focus-title">Where I spend my time</h3>
             <ul className="focus">
               {focus.map((f) => (
                 <li key={f}>{f}</li>
@@ -179,8 +196,11 @@ export default function App() {
 
         <section className="work" id="work" aria-labelledby="work-title">
           <div className="lift work-inner">
+            <p className="slug">Work</p>
             <header className="work-head">
-              <h2 id="work-title">What I’ve built</h2>
+              <h2 id="work-title" className="section-title section-title-lg">
+                What I’ve built
+              </h2>
               <p>
                 Most of it for small and medium businesses in the Philippines, and most of it connected: one system’s
                 records become another system’s input.
@@ -196,13 +216,16 @@ export default function App() {
               ))}
             </ul>
 
-            <section className="systems" aria-labelledby="systems-title">
-              <h2 id="systems-title">Every system, in detail</h2>
+            <section className="systems" id="systems" aria-labelledby="systems-title">
+              <p className="slug">Systems</p>
+              <h2 id="systems-title" className="section-title section-title-lg">
+                Every system, in detail
+              </h2>
               <p className="systems-note">Open any system to see what it does and what it’s built with.</p>
               {families.map((fam) => (
                 <section key={fam.name} className="family" aria-label={fam.name}>
                   <header className="family-head">
-                    <h3>{fam.name}</h3>
+                    <h3 className="subhead">{fam.name}</h3>
                     <p>{fam.blurb}</p>
                   </header>
                   {fam.systems.map((s) => (
@@ -212,12 +235,15 @@ export default function App() {
               ))}
             </section>
 
-            <section className="tools" aria-labelledby="tools-title">
-              <h2 id="tools-title">Tools I use</h2>
+            <section className="tools" id="tools" aria-labelledby="tools-title">
+              <p className="slug">Toolkit</p>
+              <h2 id="tools-title" className="section-title section-title-lg">
+                Tools I use
+              </h2>
               <dl>
                 {tools.map((t) => (
                   <div key={t.group}>
-                    <dt>{t.group}</dt>
+                    <dt className="subhead">{t.group}</dt>
                     <dd>{t.items.join(', ')}</dd>
                   </div>
                 ))}
@@ -229,7 +255,10 @@ export default function App() {
 
       <footer className="contact" id="contact" aria-labelledby="contact-title">
         <div className="contact-copy lift">
-          <h2 id="contact-title">Have a process that should be a system? Tell me about it.</h2>
+          <p className="slug">Contact</p>
+          <h2 id="contact-title" className="section-title">
+            Have a process that should be a system? Tell me about it.
+          </h2>
           <a className="mail" href={`mailto:${person.email}`}>
             {person.email}
           </a>

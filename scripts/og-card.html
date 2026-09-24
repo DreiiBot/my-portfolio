@@ -1,0 +1,93 @@
+<!doctype html>
+<!-- The link-preview card. Regenerate public/og-image.png with `npm run og`. -->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,500&family=Hanken+Grotesk:wght@500;600&display=block"
+      rel="stylesheet"
+    />
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+      }
+      body {
+        position: relative;
+        background: #c9cccb;
+        color: #1b1d22;
+        font-family: 'Hanken Grotesk', sans-serif;
+      }
+      .slug {
+        position: absolute;
+        left: 72px;
+        right: 72px;
+        top: 64px;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+      .slug::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: currentColor;
+        opacity: 0.35;
+      }
+      h1 {
+        position: absolute;
+        z-index: 1;
+        left: 64px;
+        top: 118px;
+        margin: 0;
+        font-family: 'Bodoni Moda', serif;
+        font-weight: 500;
+        font-size: 184px;
+        line-height: 0.8;
+        letter-spacing: -0.045em;
+        color: #85672a;
+      }
+      h1 span {
+        display: block;
+      }
+      h1 span + span {
+        padding-left: 150px;
+      }
+      img {
+        position: absolute;
+        right: -40px;
+        bottom: 0;
+        height: 600px;
+        /* The studio wall in the photo is darker than the card, so its edges dissolve into it. */
+        -webkit-mask-image: linear-gradient(to right, transparent, #000 38%), linear-gradient(transparent, #000 22%);
+        -webkit-mask-composite: source-in;
+        mask-image: linear-gradient(to right, transparent, #000 38%), linear-gradient(transparent, #000 22%);
+        mask-composite: intersect;
+      }
+      p {
+        position: absolute;
+        left: 72px;
+        bottom: 64px;
+        width: 560px;
+        margin: 0;
+        font-family: 'Bodoni Moda', serif;
+        font-weight: 500;
+        font-size: 38px;
+        line-height: 1.1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slug">Software developer · Philippines</div>
+    <h1><span>Eleandre</span><span>Sales</span></h1>
+    <img src="../src/assets/eleandre-portrait-1200.jpg" alt="" />
+    <p>How one point of sale grew into eleven connected systems</p>
+  </body>
+</html>

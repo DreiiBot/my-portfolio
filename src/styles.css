@@ -11,6 +11,8 @@
   --ink: var(--jacket);
   --ink-soft: #3b3f47;
 
+  /* Two faces, each with one job. Bodoni Moda (roman, 500) is only for titles and names; Hanken
+     Grotesk sets everything else, from body copy to labels. No italics anywhere. */
   --display: 'Bodoni Moda', 'Didot', 'Bodoni 72', Georgia, serif;
   --text: 'Hanken Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
@@ -140,7 +142,6 @@ a {
 
 .monogram {
   font-family: var(--display);
-  font-style: italic;
   font-size: var(--step-1);
   font-weight: 500;
   line-height: 1;
@@ -159,8 +160,58 @@ a {
   transition: background-size 0.35s var(--ease);
 }
 
-.nav ul a:hover {
+.nav ul a:hover,
+.nav ul a[aria-current] {
   background-size: 100% 1px;
+}
+
+/* Section headers ------------------------------------------------------------
+   Every section opens the same way: a small department label ruled across the column, then
+   a Bodoni title. Statements and nested sections use step 4; top-level titles use step 5. */
+
+.slug {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--text);
+  font-size: var(--step--1);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: clamp(28px, 5vh, 48px);
+}
+
+.slug::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.35;
+}
+
+.section-title {
+  font-family: var(--display);
+  font-weight: 500;
+  font-size: var(--step-4);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.section-title-lg {
+  font-size: var(--step-5);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+
+/* Sans subheads: questions, groups and labels inside a section. */
+.subhead {
+  font-family: var(--text);
+  font-size: var(--step-1);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
 }
 
 /* Cover ----------------------------------------------------------------------- */
@@ -251,21 +302,7 @@ a {
   max-width: 36rem;
 }
 
-.profile-copy h2 {
-  font-family: var(--display);
-  font-style: italic;
-  font-weight: 400;
-  font-size: var(--step-1);
-  margin-bottom: 28px;
-}
-
 .tagline {
-  font-family: var(--display);
-  font-size: var(--step-4);
-  font-weight: 500;
-  line-height: 1.02;
-  letter-spacing: -0.02em;
-  text-wrap: balance;
   margin-bottom: clamp(56px, 10vh, 104px);
 }
 
@@ -274,11 +311,7 @@ a {
 }
 
 .qa dt {
-  font-family: var(--display);
-  font-style: italic;
-  font-size: var(--step-2);
-  line-height: 1.2;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .qa dd {
@@ -289,10 +322,6 @@ a {
 
 .focus-title {
   margin-top: 72px;
-  font-family: var(--display);
-  font-style: italic;
-  font-weight: 400;
-  font-size: var(--step-2);
   margin-bottom: 16px;
 }
 
@@ -326,14 +355,6 @@ a {
   gap: 40px;
   align-items: end;
   margin-bottom: clamp(72px, 12vh, 136px);
-}
-
-.work h2 {
-  font-family: var(--display);
-  font-weight: 500;
-  font-size: var(--step-5);
-  line-height: 0.95;
-  letter-spacing: -0.03em;
 }
 
 .work-head p {
@@ -375,7 +396,7 @@ a {
 }
 
 .systems-note {
-  margin: 20px 0 clamp(48px, 8vh, 80px);
+  margin: 24px 0 clamp(48px, 8vh, 80px);
   color: var(--ink-soft);
 }
 
@@ -388,14 +409,7 @@ a {
   align-items: baseline;
   gap: 16px;
   flex-wrap: wrap;
-  margin-bottom: 8px;
-}
-
-.family-head h3 {
-  font-family: var(--display);
-  font-style: italic;
-  font-weight: 400;
-  font-size: var(--step-2);
+  margin-bottom: 12px;
 }
 
 .family-head p {
@@ -499,9 +513,8 @@ a {
 }
 
 .system-lead {
-  font-family: var(--display);
   font-size: var(--step-1);
-  line-height: 1.35;
+  line-height: 1.4;
   max-width: 40rem;
   margin-bottom: 36px;
 }
@@ -511,9 +524,11 @@ a {
 }
 
 .system-body h4 {
-  font-size: 0.9375rem;
+  font-size: var(--step--1);
   font-weight: 600;
-  margin-bottom: 8px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
 }
 
 /* Numbers appear only here, because these really are ordered steps. */
@@ -538,10 +553,9 @@ a {
 
 .steps li::before {
   content: counter(step);
-  font-family: var(--display);
-  font-style: italic;
   color: var(--chain);
   font-weight: 600;
+  font-variant-numeric: tabular-nums;
 }
 
 .parts {
@@ -577,7 +591,7 @@ a {
   margin-top: clamp(140px, 22vh, 220px);
 }
 
-.tools h2 {
+.tools .section-title {
   margin-bottom: clamp(40px, 7vh, 72px);
 }
 
@@ -588,9 +602,6 @@ a {
 }
 
 .tools dt {
-  font-family: var(--display);
-  font-style: italic;
-  font-size: var(--step-1);
   margin-bottom: 8px;
 }
 
@@ -612,19 +623,13 @@ a {
   max-width: 40rem;
 }
 
-.contact h2 {
-  font-family: var(--display);
-  font-weight: 500;
-  font-size: var(--step-4);
-  line-height: 1.02;
-  letter-spacing: -0.02em;
-  text-wrap: balance;
+.contact .section-title {
   margin-bottom: 40px;
 }
 
 .mail {
   font-family: var(--display);
-  font-style: italic;
+  font-weight: 500;
   font-size: var(--step-2);
   text-decoration: underline;
   text-decoration-thickness: 1px;
