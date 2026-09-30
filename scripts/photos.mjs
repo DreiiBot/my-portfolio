@@ -1,0 +1,61 @@
+// Turns the original photos in photos/ into the WebP files the page uses (src/assets/photos/).
+// Each photo is resized with Lanczos to the largest size it's shown at (2x for retina) and
+// lightly sharpened. The two small palm-tree photos are upscaled, so they get a stronger pass.
+// The hero portrait is also cut out of its background with MODNet, a portrait-matting model
+// (Apache-2.0) that runs locally; the first run downloads it (about 25 MB) from Hugging Face.
+// Run with `npm run photos` after adding or replacing an original.
+import { mkdir } from 'node:fs/promises'
+import { resolve } from 'node:path'
+import { pipeline } from '@huggingface/transformers'
+import sharp from 'sharp'
+
+const src = resolve('photos')
+const out = resolve('src/assets/photos')
+
+const jobs = [
+  { name: 'night', width: 1200 },
+  // A face crop for the small avatars in the dock and buttons.
+  { name: 'smile', as: 'avatar', extract: { left: 540, top: 150, width: 860, height: 860 }, width: 112 },
+  { name: 'turtleneck', width: 900 },
+  { name: 'denim-front', width: 900 },
+  { name: 'denim-side', width: 900 },
+  { name: 'bench', width: 900 },
+  { name: 'walkway', width: 900 },
+  { name: 'forest-walk', width: 1200 },
+  { name: 'forest-road', width: 1200 },
+  { name: 'palm-front', width: 900, upscale: true },
+  { name: 'palm-side', width: 900, upscale: true },
+]
+
+await mkdir(out, { recursive: true })
+for (const job of jobs) {
+  let img = sharp(resolve(src, `${job.name}.jpg`)).rotate()
+  if (job.extract) img = img.extract(job.extract)
+  img = img.resize({ width: job.width, kernel: 'lanczos3', withoutEnlargement: !job.upscale })
+  img = job.upscale ? img.sharpen({ sigma: 1.1, m1: 0.6, m2: 2.4 }) : img.sharpen({ sigma: 0.6 })
+  const file = resolve(out, `${job.as ?? job.name}.webp`)
+  const info = await img.webp({ quality: 84, effort: 6 }).toFile(file)
+  console.log(`${job.as ?? job.name}.webp  ${info.width}x${info.height}  ${Math.round(info.size / 1024)} KB`)
+}
+
+// Hero: the suit portrait with its wall removed, saved with transparency.
+const matte = await pipeline('background-removal', 'Xenova/modnet', { dtype: 'fp32' })
+let cut = await matte(resolve(src, 'suit.jpg'))
+if (Array.isArray(cut)) cut = cut[0]
+const alpha = Buffer.alloc(cut.width * cut.height)
+for (let i = 0; i < alpha.length; i++) alpha[i] = cut.data[i * cut.channels + cut.channels - 1]
+// Pulls the edge in by 2px and softens it, so no light fringe from the wall is left around the
+// suit. (sharp's morphology works on dark shapes: dilate is what shrinks the opaque area.)
+const edge = await sharp(alpha, { raw: { width: cut.width, height: cut.height, channels: 1 } })
+  .dilate(2)
+  .blur(0.8)
+  .toColourspace('b-w')
+  .png()
+  .toBuffer()
+const info = await sharp(resolve(src, 'suit.jpg'))
+  .joinChannel(edge)
+  .resize({ width: 1080, kernel: 'lanczos3' })
+  .sharpen({ sigma: 0.6 })
+  .webp({ quality: 86, alphaQuality: 90, effort: 6 })
+  .toFile(resolve(out, 'hero-cutout.webp'))
+console.log(`hero-cutout.webp  ${info.width}x${info.height}  ${Math.round(info.size / 1024)} KB`)

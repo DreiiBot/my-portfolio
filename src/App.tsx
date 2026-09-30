@@ -1,278 +1,420 @@
-import { useEffect, useRef, useState } from 'react'
-import greyPortrait from './assets/eleandre-portrait-800.jpg'
-import greyPortraitLarge from './assets/eleandre-portrait-1200.jpg'
-import redPortrait from './assets/eleandre-red.jpg'
+import { useEffect, useState } from 'react'
+import type { CSSProperties } from 'react'
+import avatar from './assets/photos/avatar.webp'
+import bench from './assets/photos/bench.webp'
+import denimFront from './assets/photos/denim-front.webp'
+import denimSide from './assets/photos/denim-side.webp'
+import forestRoad from './assets/photos/forest-road.webp'
+import forestWalk from './assets/photos/forest-walk.webp'
+import heroCutout from './assets/photos/hero-cutout.webp'
+import night from './assets/photos/night.webp'
+import palmFront from './assets/photos/palm-front.webp'
+import palmSide from './assets/photos/palm-side.webp'
+import turtleneck from './assets/photos/turtleneck.webp'
+import walkway from './assets/photos/walkway.webp'
 import { achievements, families, focus, interview, person, systemCount, tools } from './content'
 import type { System } from './content'
-import { createPortraitField } from './three/portraitField'
 
-const WALL = [201, 204, 203]
-const OXBLOOD = [94, 14, 23]
+const allSystems = families.flatMap((f) => f.systems)
+const byId = (id: string) => allSystems.find((s) => s.id === id)!
+const tiles = ['posibli', 'inventonet', 'synapsego', 'picklebook', 'yuaskme', 'orange-portal'].map(byId)
+const featured = ['posibli', 'inventonet', 'yuaskme'].map(byId)
+const shipped = [achievements[1], achievements[2], achievements[3]]
+// The strip of photos in About, and the ones scattered around "Let's build something together".
+const strip = [forestWalk, palmSide, bench, denimSide, forestRoad, turtleneck, walkway, palmFront]
+const scattered = [walkway, palmSide, bench, forestWalk, denimSide]
 
-const clamp01 = (n: number) => Math.min(1, Math.max(0, n))
-const ramp = (v: number, from: number, to: number) => {
-  const t = clamp01((v - from) / (to - from))
-  return t * t * (3 - 2 * t)
-}
-const sections = [
-  { id: 'profile', label: 'Profile' },
-  { id: 'work', label: 'Work' },
-  { id: 'systems', label: 'Systems' },
-  { id: 'contact', label: 'Contact' },
+const nav = [
+  { href: '#work', label: 'Work' },
+  { href: '#about', label: 'About' },
+  { href: '#archive', label: 'Systems' },
 ]
-const words = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve']
+
+// Oversized words, one span per letter so each can rise and sink on its own.
+function Word({ text, delay = 0 }: { text: string; delay?: number }) {
+  return (
+    <>
+      {Array.from(text).map((ch, i) => (
+        <span key={i} className="ch" style={{ '--i': i, '--d': `${delay + i * 45}ms` } as CSSProperties}>
+          {ch === ' ' ? ' ' : ch}
+        </span>
+      ))}
+    </>
+  )
+}
+
+function Arrow() {
+  return (
+    <svg className="arrow" viewBox="0 0 100 100" aria-hidden="true">
+      <path d="M50 6v80M14 52l36 36 36-36" fill="none" stroke="currentColor" strokeWidth="11" />
+    </svg>
+  )
+}
 
 export default function App() {
-  const stage = useRef<HTMLDivElement>(null)
-  const [webgl, setWebgl] = useState(true)
-  const [ready, setReady] = useState(false)
-  const [current, setCurrent] = useState<string>()
+  const [copied, setCopied] = useState(false)
 
-  // The nav underlines whichever section holds the upper third of the viewport.
+  // The big words sink back into their lines as their section scrolls away.
   useEffect(() => {
-    const onScroll = () => {
-      const line = window.innerHeight / 3
-      const passed = sections.filter((s) => document.getElementById(s.id)!.getBoundingClientRect().top <= line)
-      setCurrent(passed.at(-1)?.id)
-    }
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-
-  useEffect(() => {
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const field = createPortraitField(stage.current!, {
-      a: greyPortrait,
-      b: redPortrait,
-      reducedMotion,
-      onReady: () => setReady(true),
-    })
-    if (!field) {
-      setWebgl(false)
-      return
-    }
-
-    const root = document.documentElement
-    const el = (id: string) => document.getElementById(id)!
-    let tops = { profile: 0, work: 0, contact: 0 }
-    // The cover portrait stands in whatever horizontal space the cover lines leave free.
-    let free = { center: 0, width: 0 }
-    const measure = () => {
-      const top = (id: string) => el(id).getBoundingClientRect().top + window.scrollY
-      tops = { profile: top('profile'), work: top('work'), contact: top('contact') }
-      const [left, right] = Array.from(document.querySelectorAll('.coverline')).map((n) => n.getBoundingClientRect())
-      const sideBySide = right.left > left.right
-      const from = left.right + 24
-      const to = (sideBySide ? right.left : window.innerWidth) - 24
-      free = { center: (from + to) / 2, width: to - from }
-    }
-
-    // The whole page is one continuous shot: the backdrop color and the portrait's pose are
-    // both functions of scroll position, keyed to where each section starts.
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const blocks = Array.from(document.querySelectorAll<HTMLElement>('[data-sink]'))
     const update = () => {
       const vh = window.innerHeight
-      const y = window.scrollY
-      const wide = window.innerWidth >= 900
-      const p1 = ramp(y, tops.profile - 0.85 * vh, tops.profile - 0.2 * vh)
-      const p2 = ramp(y, tops.work - 0.8 * vh, tops.work - 0.15 * vh)
-      const p3 = ramp(y, tops.contact - 0.95 * vh, tops.contact - 0.2 * vh)
-
-      const red = p1 * (1 - p2)
-      const bg = WALL.map((w, i) => Math.round(w + (OXBLOOD[i] - w) * red))
-      root.style.setProperty('--backdrop', `rgb(${bg.join(' ')})`)
-      root.dataset.tone = red > 0.5 ? 'oxblood' : 'wall'
-
-      const vw = field.visibleWidth()
-      const perPx = vw / window.innerWidth
-      // The shoulders span about 74% of the photo's 2.4 world units.
-      const heroScale = Math.min(1.34, (free.width * perPx) / (0.74 * 2.4))
-      const heroX = (free.center - window.innerWidth / 2) * perPx
-      const pose = wide
-        ? { hero: [heroX, -0.3, heroScale, 0], profile: [-vw * 0.23, -0.05, 1.28, 0.28], contact: [vw * 0.21, -0.2, 1.2, -0.24] }
-        : { hero: [0, 0.05, 0.92, 0], profile: [0, 0.1, 1.05, 0], contact: [0, 0.35, 0.9, 0] }
-      const lerp = (a: number, b: number, t: number) => a + (b - a) * t
-      const at = (i: number) => lerp(lerp(pose.hero[i], pose.profile[i], p1), pose.contact[i], p3)
-
-      Object.assign(field.target, {
-        mix: red,
-        scatter: p2 * (1 - p3),
-        x: at(0),
-        y: at(1),
-        scale: at(2),
-        turn: at(3),
-        // On narrow screens the text sits on top of the portrait, so the portrait steps back.
-        opacity: wide ? 1 : lerp(1, 0.28, Math.max(red, p3)),
-      })
+      for (const b of blocks) {
+        const r = b.getBoundingClientRect()
+        const past = reduced.matches ? 0 : Math.min(1, Math.max(0, -r.top / (r.height || vh)))
+        b.style.setProperty('--sink', String(Math.round(past * 1000) / 10))
+      }
     }
-
-    const onResize = () => {
-      measure()
-      update()
-    }
-    measure()
     update()
     window.addEventListener('scroll', update, { passive: true })
-    window.addEventListener('resize', onResize)
-    const ro = new ResizeObserver(onResize)
-    ro.observe(document.body)
+    window.addEventListener('resize', update)
     return () => {
       window.removeEventListener('scroll', update)
-      window.removeEventListener('resize', onResize)
-      ro.disconnect()
-      field.dispose()
+      window.removeEventListener('resize', update)
     }
   }, [])
+
+  // A link to a system opens its details before the browser scrolls to it.
+  useEffect(() => {
+    const onClick = (e: MouseEvent) => {
+      const a = (e.target as Element).closest('a[href^="#"]')
+      const el = a && document.getElementById(a.getAttribute('href')!.slice(1))
+      if (el instanceof HTMLDetailsElement) el.open = true
+    }
+    document.addEventListener('click', onClick)
+    return () => document.removeEventListener('click', onClick)
+  }, [])
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(person.email)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      window.location.href = `mailto:${person.email}`
+    }
+  }
 
   return (
     <>
-      <a className="skip" href="#profile">
-        Skip to profile
+      <a className="skip" href="#what">
+        Skip to content
       </a>
-      <div
-        ref={stage}
-        className="stage"
-        data-ready={ready || undefined}
-        role="img"
-        aria-label="Portrait of Eleandre Sales, drawn in points, in round sunglasses, a black turtleneck, an open black shirt and a gold chain"
-      />
 
-      <nav className="nav" aria-label="Sections">
-        <a href="#top" className="monogram" aria-label="Back to top">
-          ES
-        </a>
+      <nav className="dock" aria-label="Sections">
         <ul>
-          {sections.map((s) => (
-            <li key={s.id}>
-              <a href={`#${s.id}`} aria-current={current === s.id ? 'location' : undefined}>
-                {s.label}
-              </a>
+          {nav.map((n) => (
+            <li key={n.href}>
+              <a href={n.href}>{n.label}</a>
             </li>
           ))}
         </ul>
+        <a className="talk" href="#contact">
+          <img src={avatar} alt="" width="28" height="28" />
+          Let’s talk
+        </a>
       </nav>
 
       <main>
-        <header className="cover" id="top">
-          <h1 className="masthead">
-            <span className="masthead-first">{person.first}</span>{' '}
-            <span className="masthead-last">{person.last}</span>
-          </h1>
-          {!webgl && <img className="still still-cover" src={greyPortraitLarge} alt="" />}
-          <div className="coverlines lift">
-            <p className="coverline">
-              {person.role} in the Philippines. I build the systems small businesses run on.
-            </p>
-            <a className="coverline coverline-story" href="#work">
-              <strong>How one point of sale grew into {words[systemCount]} connected systems</strong>
-              <span>Checkout, procurement, invoicing, WiFi, door access and AI</span>
-            </a>
-          </div>
-        </header>
+        {/* Hero ------------------------------------------------------------ */}
+        <header className="hero" id="top" data-sink>
+          <img
+            className="hero-photo"
+            src={heroCutout}
+            alt="Eleandre Sales in a black suit and round sunglasses, adjusting his tie"
+            width="1080"
+            height="1935"
+          />
+          <div className="hero-shade" aria-hidden="true" />
 
-        <section className="profile" id="profile" aria-labelledby="profile-title">
-          {!webgl && <img className="still still-profile" src={redPortrait} alt="" />}
-          <div className="profile-copy lift">
-            <p className="slug">Profile, in my own words</p>
-            <h2 id="profile-title" className="section-title tagline">
-              {person.tagline}
-            </h2>
-            <dl className="qa">
-              {interview.map((item) => (
-                <div key={item.q}>
-                  <dt className="subhead">{item.q}</dt>
-                  <dd>{item.a}</dd>
-                </div>
-              ))}
-            </dl>
-            <h3 className="subhead focus-title">Where I spend my time</h3>
-            <ul className="focus">
-              {focus.map((f) => (
-                <li key={f}>{f}</li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        <section className="work" id="work" aria-labelledby="work-title">
-          <div className="lift work-inner">
-            <p className="slug">Work</p>
-            <header className="work-head">
-              <h2 id="work-title" className="section-title section-title-lg">
-                What I’ve built
-              </h2>
-              <p>
-                Most of it for small and medium businesses in the Philippines, and most of it connected: one system’s
-                records become another system’s input.
-              </p>
-            </header>
-
-            <ul className="feats">
-              {achievements.map((a) => (
-                <li key={a.title}>
-                  <h3>{a.title}</h3>
-                  <p>{a.body}</p>
-                </li>
-              ))}
-            </ul>
-
-            <section className="systems" id="systems" aria-labelledby="systems-title">
-              <p className="slug">Systems</p>
-              <h2 id="systems-title" className="section-title section-title-lg">
-                Every system, in detail
-              </h2>
-              <p className="systems-note">Open any system to see what it does and what it’s built with.</p>
-              {families.map((fam) => (
-                <section key={fam.name} className="family" aria-label={fam.name}>
-                  <header className="family-head">
-                    <h3 className="subhead">{fam.name}</h3>
-                    <p>{fam.blurb}</p>
-                  </header>
-                  {fam.systems.map((s) => (
-                    <SystemRow key={s.id} system={s} />
-                  ))}
-                </section>
-              ))}
-            </section>
-
-            <section className="tools" id="tools" aria-labelledby="tools-title">
-              <p className="slug">Toolkit</p>
-              <h2 id="tools-title" className="section-title section-title-lg">
-                Tools I use
-              </h2>
-              <dl>
-                {tools.map((t) => (
-                  <div key={t.group}>
-                    <dt className="subhead">{t.group}</dt>
-                    <dd>{t.items.join(', ')}</dd>
-                  </div>
-                ))}
-              </dl>
-            </section>
-          </div>
-        </section>
-      </main>
-
-      <footer className="contact" id="contact" aria-labelledby="contact-title">
-        <div className="contact-copy lift">
-          <p className="slug">Contact</p>
-          <h2 id="contact-title" className="section-title">
-            Have a process that should be a system? Tell me about it.
-          </h2>
-          <a className="mail" href={`mailto:${person.email}`}>
+          <a href="#top" className="logo" aria-label={`${person.name}, back to top`}>
+            <span>{person.first}</span>
+            <span>{person.last}</span>
+          </a>
+          <a className="hero-mail" href={`mailto:${person.email}`}>
             {person.email}
           </a>
-          <ul className="elsewhere">
-            {person.links.map((l) => (
-              <li key={l.label}>
-                <a href={l.href}>{l.label}</a>
+
+          <h1 className="sr-only">
+            {person.name}: software and business systems. {person.intro}
+          </h1>
+          <div className="hero-words" aria-hidden="true">
+            <span className="line line-1">
+              <Word text="Software" />
+              <span className="amp">
+                <Word text="&" delay={360} />
+              </span>
+            </span>
+            <span className="line line-2">
+              <Word text="Business" delay={180} />
+            </span>
+            <span className="line line-3">
+              <Word text="Systems" delay={320} />
+            </span>
+            <span className="line line-arrow">
+              <span className="ch" style={{ '--i': 0, '--d': '700ms' } as CSSProperties}>
+                <Arrow />
+              </span>
+            </span>
+          </div>
+
+          <p className="hero-intro">{person.intro}</p>
+          <a className="stat stat-1" href="#what">
+            {systemCount} connected systems
+          </a>
+          <a className="stat stat-2" href="#inventonet">
+            12-step procure-to-pay
+          </a>
+          <p className="hero-foot">
+            <span>{person.location}</span>
+            <span>Scroll</span>
+          </p>
+        </header>
+
+        {/* What I do -------------------------------------------------------- */}
+        <section className="what" id="what" aria-labelledby="what-title">
+          <div className="what-pin">
+            <p className="tag">[ What I do ]</p>
+            <div className="what-copy">
+              <h2 id="what-title" className="big">
+                {person.statement}
+              </h2>
+              <p className="what-scope">{person.scope}</p>
+            </div>
+          </div>
+          <ul className="tiles" aria-label="Some of the systems">
+            {tiles.map((s, i) => (
+              <li key={s.id} className={`tile tile-${i + 1}`}>
+                <a href={`#${s.id}`}>
+                  <span className="tile-kind">{s.kind}</span>
+                  <strong>{s.name}</strong>
+                  <span className="tile-summary">{s.summary}</span>
+                </a>
               </li>
             ))}
           </ul>
-          <p className="colophon">
-            © {new Date().getFullYear()} {person.name}. The portrait is drawn live in three.js from two photographs.
+        </section>
+
+        {/* Featured --------------------------------------------------------- */}
+        <section className="featured" id="work" aria-labelledby="work-title">
+          <header className="featured-head" data-sink>
+            <h2 id="work-title" className="giant">
+              <span className="line">
+                <Word text="Featured." />
+              </span>
+            </h2>
+            <p className="tag">[ Case studies ]</p>
+          </header>
+
+          {featured.map((s, i) => (
+            <article key={s.id} className="case" id={`case-${s.id}`}>
+              <a className="case-visual" href={`#${s.id}`} aria-label={`${s.name}, full details`}>
+                <span className="case-name">{s.name}</span>
+                <span className="case-lines" aria-hidden="true">
+                  {(s.steps?.list ?? s.parts.map((p) => p.title)).slice(0, 6).map((l) => (
+                    <span key={l}>{l}</span>
+                  ))}
+                </span>
+              </a>
+              <div className="case-copy">
+                <p className="case-num">{i + 1}</p>
+                <h3>{s.summary}</h3>
+                <p className="case-tags">{[s.kind, ...s.tech.slice(0, 2)].join(', ')}</p>
+              </div>
+              <a className="case-next" href={i < featured.length - 1 ? `#case-${featured[i + 1].id}` : '#shipped'}>
+                {i < featured.length - 1 ? 'Next project' : 'What I’ve shipped'}
+              </a>
+            </article>
+          ))}
+        </section>
+
+        {/* Shipped ---------------------------------------------------------- */}
+        <section className="shipped" id="shipped" aria-labelledby="shipped-title">
+          <div className="shipped-pin" data-sink>
+            <p className="tag">[ What I’ve shipped ]</p>
+            <h2 id="shipped-title" className="giant giant-center">
+              <span className="line">
+                <Word text="Shipped" />
+              </span>
+              <span className="line">
+                <Word text="and" delay={150} />
+              </span>
+              <span className="line">
+                <Word text="running" delay={300} />
+              </span>
+            </h2>
+          </div>
+          <ol className="proofs">
+            {shipped.map((a, i) => (
+              <li key={a.title} className="proof">
+                <p className="proof-num">{i + 1}</p>
+                <p className="proof-quote">{a.body}</p>
+                <p className="proof-name">{a.title}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        {/* About ------------------------------------------------------------ */}
+        <section className="about" id="about" aria-labelledby="about-title">
+          <h2 id="about-title" className="big about-lead">
+            {person.about}
+          </h2>
+
+          <div className="about-row about-start">
+            <p className="tag">[ How I work ]</p>
+            <img
+              src={denimFront}
+              alt="Eleandre Sales in a denim jacket and round sunglasses"
+              width="900"
+              height="1350"
+              loading="lazy"
+            />
+            <p className="body">{interview[1].a}</p>
+          </div>
+
+          <div className="about-row about-me">
+            <div>
+              <p className="tag">[ About me ]</p>
+              <p className="body">{interview[2].a}</p>
+            </div>
+            <div className="marquee" aria-hidden="true">
+              <div className="marquee-track">
+                {[...strip, ...strip].map((src, i) => (
+                  <img key={i} src={src} alt="" loading="lazy" />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="about-row about-focus">
+            <h2 className="big">{person.focusLine}</h2>
+            <img
+              src={night}
+              alt="Eleandre Sales at night in round sunglasses and a black T-shirt"
+              width="1200"
+              height="1200"
+              loading="lazy"
+            />
+          </div>
+
+          <div className="about-row about-best">
+            <div>
+              <p className="tag">[ What I do best ]</p>
+              <p className="small">{[...focus, ...tools.flatMap((t) => t.items).slice(0, 14)].join(', ')}.</p>
+              <p className="small about-now">{interview[0].a}</p>
+            </div>
+            <p className="body body-alt">{person.tagline}</p>
+            <a className="btn" href={person.links[0].href}>
+              View GitHub
+            </a>
+          </div>
+        </section>
+
+        {/* Build together --------------------------------------------------- */}
+        <section className="together" aria-labelledby="together-title">
+          {scattered.map((src, i) => (
+            <img key={i} className={`float float-${i + 1}`} src={src} alt="" loading="lazy" />
+          ))}
+          <h2 id="together-title">Let’s build something together.</h2>
+          <a className="btn btn-avatar" href="#archive">
+            <img src={avatar} alt="" width="28" height="28" />
+            See every system
+          </a>
+        </section>
+
+        {/* Archive: every system --------------------------------------------- */}
+        <section className="archive" id="archive" aria-labelledby="archive-title">
+          <header className="archive-head">
+            <p className="tag">[ Archive ]</p>
+            <h2 id="archive-title" className="big">
+              Every system, in detail
+            </h2>
+          </header>
+          {families.map((fam) => (
+            <section key={fam.name} className="family" aria-label={fam.name}>
+              <header className="family-head">
+                <h3>{fam.name}</h3>
+                <p>{fam.blurb}</p>
+              </header>
+              {fam.systems.map((s) => (
+                <SystemRow key={s.id} system={s} />
+              ))}
+            </section>
+          ))}
+
+          <section className="tools" aria-labelledby="tools-title">
+            <p className="tag" id="tools-title">
+              [ Tools I use ]
+            </p>
+            <dl>
+              {tools.map((t) => (
+                <div key={t.group}>
+                  <dt>{t.group}</dt>
+                  <dd>{t.items.join(', ')}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        </section>
+      </main>
+
+      {/* Footer ------------------------------------------------------------- */}
+      <footer className="footer" id="contact" aria-labelledby="contact-title">
+        <div className="footer-top">
+          <h2 id="contact-title">Ready to start?</h2>
+          <div className="mail-row">
+            <a className="mail" href={`mailto:${person.email}`}>
+              {person.email}
+            </a>
+            <button type="button" className="copy" onClick={copyEmail} aria-live="polite">
+              {copied ? 'Copied!' : 'Copy to clipboard'}
+            </button>
+          </div>
+        </div>
+        <div className="footer-grid">
+          <div>
+            <p className="footer-label">Site</p>
+            <ul className="footer-links">
+              <li>
+                <a href="#top">Home</a>
+              </li>
+              <li>
+                <a href="#work">Work</a>
+              </li>
+              <li>
+                <a href="#shipped">Shipped</a>
+              </li>
+              <li>
+                <a href="#about">About</a>
+              </li>
+              <li>
+                <a href="#archive">Systems</a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <p className="footer-label">Follow</p>
+            <ul className="footer-links">
+              {person.links.map((l) => (
+                <li key={l.label}>
+                  <a href={l.href}>{l.label}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <p className="footer-motto">
+            <span>{person.signOff[0]}</span>
+            <span>{person.signOff[1]}</span>
           </p>
         </div>
+        <p className="footer-bottom">
+          <span>
+            © {new Date().getFullYear()} {person.name}
+          </span>
+          <a href="#top">Back to top</a>
+        </p>
       </footer>
     </>
   )

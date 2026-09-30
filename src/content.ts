@@ -7,6 +7,13 @@ export const person = {
   role: 'Software developer and IT professional',
   tagline: 'I turn real-world business problems into software that is reliable, intuitive and genuinely useful.',
   email: 'anonymousgenius1999@gmail.com',
+  location: 'Based in the Philippines',
+  intro: 'Hey, I’m Eleandre. I build business systems and software that connect, automate, and scale.',
+  statement: 'Point of sale, procurement, invoicing and AI, built for small businesses and wired together.',
+  scope: 'For retail, hospitality, sports facilities, connectivity and education.',
+  about: 'I’m Eleandre, a software developer in the Philippines who turns business processes into systems.',
+  focusLine: 'Today my focus is clear: systems that work as hard for a business as the people who run it.',
+  signOff: ['One point of sale', 'Eleven systems'],
   links: [
     { label: 'GitHub', href: 'https://github.com/DreiiBot' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/eleandre-sales-902194334' },
