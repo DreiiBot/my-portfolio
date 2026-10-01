@@ -455,18 +455,16 @@ button {
   position: absolute;
   z-index: 2;
   width: var(--tile);
-  aspect-ratio: 1;
 }
 
+/* A website screenshot with the product's name underneath, like a browser card. */
 .tile a {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding: 28px;
+  display: block;
+  overflow: hidden;
   border-radius: 6px;
-  background: linear-gradient(160deg, #1f1d17, var(--panel) 60%);
+  background: var(--panel);
   border: 1px solid var(--line);
-  box-shadow: 0 30px 80px -30px rgb(0 0 0 / 0.8);
+  box-shadow: 0 30px 80px -30px rgb(0 0 0 / 0.85);
   transition: border-color 0.3s var(--ease);
 }
 
@@ -474,25 +472,31 @@ button {
   border-color: rgb(208 197 171 / 0.35);
 }
 
-.tile-kind {
+.tile img {
+  width: 100%;
+  aspect-ratio: 1425 / 900;
+  object-fit: cover;
+  object-position: top;
+}
+
+.tile-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  padding: 16px 18px 18px;
+}
+
+.tile-label strong {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.tile-label span {
   font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
-  color: var(--text-80);
-}
-
-.tile strong {
-  margin-top: auto;
-  font-size: max(2rem, 3.3vw);
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.03em;
-}
-
-.tile-summary {
-  margin-top: 12px;
-  font-size: 15px;
-  line-height: 1.45;
   color: var(--text-80);
 }
 
@@ -557,13 +561,10 @@ button {
 }
 
 .case-visual {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 32px;
-  padding: 36px;
+  position: relative;
+  overflow: hidden;
   border-radius: 6px;
-  background: linear-gradient(160deg, #1f1d17, var(--panel) 70%);
+  background: var(--panel);
   border: 1px solid var(--line);
   transition: border-color 0.3s var(--ease);
 }
@@ -572,37 +573,24 @@ button {
   border-color: rgb(208 197 171 / 0.35);
 }
 
-.case-name {
-  font-size: max(2.4rem, 5vw);
-  font-weight: 700;
-  line-height: 0.95;
-  letter-spacing: -0.035em;
-  overflow-wrap: anywhere;
+/* The website fills the panel from its top-left corner, where each site's headline sits. */
+.case-shot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: left top;
 }
 
-.case-lines {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.case-lines span {
-  display: flex;
-  justify-content: space-between;
-  padding: 12px 16px;
-  border-radius: 4px;
-  background: rgb(208 197 171 / 0.05);
-  font-size: 14px;
-  color: var(--text-80);
-}
-
-.case-lines span::after {
-  content: '';
-  width: 36%;
-  height: 6px;
-  margin-top: 7px;
-  border-radius: 3px;
-  background: rgb(208 197 171 / 0.1);
+/* The app, standing in front of its website. */
+.case-phone {
+  position: absolute;
+  right: 6%;
+  bottom: -14%;
+  width: 34%;
+  border-radius: 11% / 5.5%;
+  box-shadow: 0 40px 80px -20px rgb(0 0 0 / 0.9);
 }
 
 .case-copy {
@@ -1137,7 +1125,14 @@ button {
 }
 
 .footer-top {
-  margin-left: 57.9vw;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 48px 6vw;
+  align-items: end;
+}
+
+.footer-pitch {
+  max-width: 13em;
 }
 
 .footer-top h2 {
@@ -1160,7 +1155,7 @@ button {
   font-size: 28px;
   line-height: 1.2;
   letter-spacing: -0.03em;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
 }
 
 .mail:hover {
@@ -1187,7 +1182,7 @@ button {
 .footer-grid {
   display: grid;
   grid-template-columns: 28.9vw 29vw 1fr;
-  align-items: center;
+  align-items: start;
   margin-top: 120px;
 }
 
@@ -1337,7 +1332,6 @@ button {
   .tile {
     position: static;
     width: auto;
-    aspect-ratio: 4 / 3;
   }
 
   .featured {
@@ -1360,7 +1354,7 @@ button {
   }
 
   .case-visual {
-    padding: 24px;
+    aspect-ratio: 1;
   }
 
   .case-copy h3 {
@@ -1498,7 +1492,7 @@ button {
   }
 
   .footer-top {
-    margin-left: 0;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .footer-top h2 {
@@ -1508,6 +1502,8 @@ button {
 
   .mail {
     font-size: 22px;
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 
   .footer-grid {

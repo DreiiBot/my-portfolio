@@ -38,6 +38,36 @@ for (const job of jobs) {
   console.log(`${job.as ?? job.name}.webp  ${info.width}x${info.height}  ${Math.round(info.size / 1024)} KB`)
 }
 
+// Product screenshots in photos/screens/. The website captures (1440x900, from headless Chrome)
+// carry a 15px scrollbar on the right, which is trimmed off. From the app promos (1080x1920
+// posters), only the phone is kept.
+const screens = [
+  { file: 'posibli-site.png', trim: { right: 15 } },
+  { file: 'yuaskme-site.png', trim: { right: 15 } },
+  { file: 'orange-portal-site.png', trim: { right: 15 } },
+  { file: 'vistay-site.png', trim: { right: 15 } },
+  { file: 'synapsego-site.png', trim: { right: 15 } },
+  { file: 'picklebook-site.webp', trim: { top: 6 } },
+  { file: 'picklebook-app-schedule.webp', phone: true },
+  { file: 'synapsego-app-home.webp', phone: true },
+]
+for (const s of screens) {
+  const path = resolve(src, 'screens', s.file)
+  const meta = await sharp(path).metadata()
+  let img = sharp(path)
+  if (s.phone) img = img.extract({ left: 296, top: 488, width: 528, height: 1066 })
+  if (s.trim) {
+    const top = s.trim.top ?? 0
+    img = img.extract({ left: 0, top, width: meta.width - (s.trim.right ?? 0), height: meta.height - top })
+  }
+  const name = s.file.replace(/\.\w+$/, '')
+  const info = await img
+    .resize({ width: s.phone ? 528 : 1440, kernel: 'lanczos3', withoutEnlargement: true })
+    .webp({ quality: 86, effort: 6 })
+    .toFile(resolve(out, `${name}.webp`))
+  console.log(`${name}.webp  ${info.width}x${info.height}  ${Math.round(info.size / 1024)} KB`)
+}
+
 // Hero: the suit portrait with its wall removed, saved with transparency.
 const matte = await pipeline('background-removal', 'Xenova/modnet', { dtype: 'fp32' })
 let cut = await matte(resolve(src, 'suit.jpg'))

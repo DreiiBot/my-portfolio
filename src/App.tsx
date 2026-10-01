@@ -10,6 +10,14 @@ import heroCutout from './assets/photos/hero-cutout.webp'
 import night from './assets/photos/night.webp'
 import palmFront from './assets/photos/palm-front.webp'
 import palmSide from './assets/photos/palm-side.webp'
+import orangePortalSite from './assets/photos/orange-portal-site.webp'
+import picklebookSchedule from './assets/photos/picklebook-app-schedule.webp'
+import picklebookSite from './assets/photos/picklebook-site.webp'
+import posibliSite from './assets/photos/posibli-site.webp'
+import synapsegoHome from './assets/photos/synapsego-app-home.webp'
+import synapsegoSite from './assets/photos/synapsego-site.webp'
+import vistaySite from './assets/photos/vistay-site.webp'
+import yuaskmeSite from './assets/photos/yuaskme-site.webp'
 import turtleneck from './assets/photos/turtleneck.webp'
 import walkway from './assets/photos/walkway.webp'
 import { achievements, families, focus, interview, person, systemCount, tools } from './content'
@@ -17,8 +25,21 @@ import type { System } from './content'
 
 const allSystems = families.flatMap((f) => f.systems)
 const byId = (id: string) => allSystems.find((s) => s.id === id)!
-const tiles = ['posibli', 'inventonet', 'synapsego', 'picklebook', 'yuaskme', 'orange-portal'].map(byId)
-const featured = ['posibli', 'inventonet', 'yuaskme'].map(byId)
+// Screenshots of each product's website, shown on the tiles that cross "What I do".
+const tiles = [
+  { system: byId('posibli'), shot: posibliSite },
+  { system: byId('orange-portal'), shot: orangePortalSite },
+  { system: byId('yuaskme'), shot: yuaskmeSite },
+  { system: byId('vistay'), shot: vistaySite },
+  { system: byId('picklebook'), shot: picklebookSite },
+  { system: byId('synapsego'), shot: synapsegoSite },
+]
+// Each case study shows the product's website, with a phone screen from the app where there is one.
+const featured = [
+  { system: byId('posibli'), shot: posibliSite },
+  { system: byId('picklebook'), shot: picklebookSite, phone: picklebookSchedule },
+  { system: byId('synapsego'), shot: synapsegoSite, phone: synapsegoHome },
+]
 const shipped = [achievements[1], achievements[2], achievements[3]]
 // The strip of photos in About, and the ones scattered around "Let's build something together".
 const strip = [forestWalk, palmSide, bench, denimSide, forestRoad, turtleneck, walkway, palmFront]
@@ -184,12 +205,14 @@ export default function App() {
             </div>
           </div>
           <ul className="tiles" aria-label="Some of the systems">
-            {tiles.map((s, i) => (
+            {tiles.map(({ system: s, shot }, i) => (
               <li key={s.id} className={`tile tile-${i + 1}`}>
                 <a href={`#${s.id}`}>
-                  <span className="tile-kind">{s.kind}</span>
-                  <strong>{s.name}</strong>
-                  <span className="tile-summary">{s.summary}</span>
+                  <img src={shot} alt={`The ${s.name} website`} loading="lazy" />
+                  <span className="tile-label">
+                    <strong>{s.name}</strong>
+                    <span>{s.kind}</span>
+                  </span>
                 </a>
               </li>
             ))}
@@ -207,22 +230,20 @@ export default function App() {
             <p className="tag">[ Case studies ]</p>
           </header>
 
-          {featured.map((s, i) => (
+          {featured.map(({ system: s, shot, phone }, i) => (
             <article key={s.id} className="case" id={`case-${s.id}`}>
               <a className="case-visual" href={`#${s.id}`} aria-label={`${s.name}, full details`}>
-                <span className="case-name">{s.name}</span>
-                <span className="case-lines" aria-hidden="true">
-                  {(s.steps?.list ?? s.parts.map((p) => p.title)).slice(0, 6).map((l) => (
-                    <span key={l}>{l}</span>
-                  ))}
-                </span>
+                <img className="case-shot" src={shot} alt={`The ${s.name} website`} loading="lazy" />
+                {phone && <img className="case-phone" src={phone} alt={`The ${s.name} app`} loading="lazy" />}
               </a>
               <div className="case-copy">
                 <p className="case-num">{i + 1}</p>
                 <h3>{s.summary}</h3>
-                <p className="case-tags">{[s.kind, ...s.tech.slice(0, 2)].join(', ')}</p>
+                <p className="case-tags">
+                  {[s.kind, ...s.tech.filter((t) => !s.kind.includes(t)).slice(0, 2)].join(', ')}
+                </p>
               </div>
-              <a className="case-next" href={i < featured.length - 1 ? `#case-${featured[i + 1].id}` : '#shipped'}>
+              <a className="case-next" href={i < featured.length - 1 ? `#case-${featured[i + 1].system.id}` : '#shipped'}>
                 {i < featured.length - 1 ? 'Next project' : 'What I’ve shipped'}
               </a>
             </article>
@@ -363,14 +384,17 @@ export default function App() {
       {/* Footer ------------------------------------------------------------- */}
       <footer className="footer" id="contact" aria-labelledby="contact-title">
         <div className="footer-top">
-          <h2 id="contact-title">Ready to start?</h2>
-          <div className="mail-row">
-            <a className="mail" href={`mailto:${person.email}`}>
-              {person.email}
-            </a>
-            <button type="button" className="copy" onClick={copyEmail} aria-live="polite">
-              {copied ? 'Copied!' : 'Copy to clipboard'}
-            </button>
+          <p className="big footer-pitch">Have a process that should be a system? Tell me about it.</p>
+          <div className="footer-contact">
+            <h2 id="contact-title">Ready to start?</h2>
+            <div className="mail-row">
+              <a className="mail" href={`mailto:${person.email}`}>
+                {person.email}
+              </a>
+              <button type="button" className="copy" onClick={copyEmail} aria-live="polite">
+                {copied ? 'Copied!' : 'Copy to clipboard'}
+              </button>
+            </div>
           </div>
         </div>
         <div className="footer-grid">
