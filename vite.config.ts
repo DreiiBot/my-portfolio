@@ -3,8 +3,12 @@ import { defineConfig } from 'vite'
 import type { Plugin } from 'vite'
 
 // The public address of the site. Canonical links, Open Graph URLs and the sitemap all need
-// it absolute. Override per deploy with `SITE_URL=https://example.com npm run build`.
-const SITE_URL = (process.env.SITE_URL ?? 'https://dreiibot.github.io/my-portfolio').replace(/\/$/, '')
+// it absolute. Override per deploy with `SITE_URL=https://example.com npm run build`; on Vercel it
+// follows the project's production domain.
+const VERCEL_URL = process.env.VERCEL_PROJECT_PRODUCTION_URL
+const SITE_URL = (
+  process.env.SITE_URL ?? (VERCEL_URL ? `https://${VERCEL_URL}` : 'https://eleandresales.vercel.app')
+).replace(/\/$/, '')
 
 function seo(): Plugin {
   let ssr = false
