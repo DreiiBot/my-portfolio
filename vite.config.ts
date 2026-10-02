@@ -37,7 +37,11 @@ function seo(): Plugin {
   }
 }
 
+// Serve assets from the site's sub-path (e.g. /my-portfolio/ on GitHub Pages) so they don't 404.
+const base = new URL(SITE_URL).pathname.replace(/\/?$/, '/')
+
 // https://vite.dev/config/
 export default defineConfig({
+  base,
   plugins: [react(), seo()],
 })
